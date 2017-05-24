@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "rebecca-theme" "rebecca-theme.el" (22820 12078
+;;;### (autoloads nil "rebecca-theme" "rebecca-theme.el" (22821 20485
 ;;;;;;  0 0))
 ;;; Generated autoloads from rebecca-theme.el
 
