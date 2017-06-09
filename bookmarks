@@ -1,0 +1,10 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("org-refile-last-stored"
+ (filename . "c:/Users/bpracca/Documents/_Notes/TODO/geo_docker.org")
+ (front-context-string . "** Dynmap\n- [ ] ")
+ (rear-context-string . " TODO les lier \n")
+ (position . 1110))
+)
