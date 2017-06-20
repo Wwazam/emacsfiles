@@ -36,7 +36,7 @@ re-downloaded in order to locate PACKAGE."
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
+    (rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -65,8 +65,20 @@ re-downloaded in order to locate PACKAGE."
 ;###################################################################################################
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+
+;; more useful frame title, that show either a file or a
+;; buffer name (if the buffer isn't visiting a file)
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
 (load-theme 'deeper-blue)
 (global-linum-mode t)
+
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
 (setq default-directory "C:\\Users\\bpracca\\Documents\\_Notes\\")
 
 (require 'autopair) ;; automatically pair up ()[]{}
