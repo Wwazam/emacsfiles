@@ -32,17 +32,17 @@ re-downloaded in order to locate PACKAGE."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
+    ("67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
+    (org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(linum ((t (:background "#3F3F3F" :foreground "#9FC59F" :underline nil :height 0.75)))))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -73,7 +73,7 @@ re-downloaded in order to locate PACKAGE."
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 
-(load-theme 'deeper-blue)
+(load-theme 'zenburn)
 (global-linum-mode t)
 
 (setq show-paren-delay 0)
@@ -86,6 +86,8 @@ re-downloaded in order to locate PACKAGE."
 
 (global-set-key (kbd "C-=") 'calculator)
 
+(require 'sentence-highlight)
+(add-hook 'org-mode-hook 'auto-fill-mode)
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -127,9 +129,21 @@ re-downloaded in order to locate PACKAGE."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 (setq org-todo-keywords
-	'((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)")
-	(sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
-	(sequence "|" "CANCELED(a)")))
+      '((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)")
+      (sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
+      (sequence "|" "CANCELED(a)")))
+
+(setq org-todo-keywords-faces
+      '(("NOW" . "DeepSkyBlue3") ("TODO" . "LightSkyBlue1") ("DONE" . "SpringGreen2") ("LATER" . "pink") ("CHECK" . "DarkGoldenrod")
+	("BUG" . "red") ("ISSUE" . "OrangeRed") ("FIXED" . "SpringGreen2")
+	("CANCELED" . "SpringGreen3")))
+
+(require 'org-bullets)
+(setq org-bullets-face-name (quote org-bullet-face))
+(add-hook 'org-mode-hook (lambda ()(org-bullets-mode 1)))
+(setq org-bullets-bullet-list '("○"))
+
+(setq org-ellipsis " ▼")
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -153,7 +167,8 @@ re-downloaded in order to locate PACKAGE."
 
 ;;SHORTCUTS
 ;;;; Esc on jj
-(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
 (evil-leader/set-key "/" 'evil-ex-nohighlight)
 
 ;;(global-set-key (kbd "C-c C-w") (lambda () (interactive) (evil-window-set-width) (universal-argument 30 evil-window-decrease-width)))
