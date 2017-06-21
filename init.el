@@ -36,13 +36,28 @@ re-downloaded in order to locate PACKAGE."
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
+    (ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(linum ((t (:background "#3F3F3F" :foreground "#9FC59F" :underline nil :height 0.75)))))
+
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;#      #     #     ################################################################################
+;# #### # ##### ####################################################################################
+;#      # #####   ##################################################################################
+;# #### # ##### ####################################################################################
+;# #### #     #     ################################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+
+(require 'ace-jump-mode)
+(define-key evil-normal-state-map (kbd "C-.") 'ace-jump-mode)
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -141,9 +156,12 @@ re-downloaded in order to locate PACKAGE."
 (require 'org-bullets)
 (setq org-bullets-face-name (quote org-bullet-face))
 (add-hook 'org-mode-hook (lambda ()(org-bullets-mode 1)))
-(setq org-bullets-bullet-list '("○"))
+(setq org-bullets-bullet-list '("•"))
 
 (setq org-ellipsis " ▼")
+
+;; hide the // or ** or +--+ or __ when stylizing 
+(setq org-hide-emphasis-markers t)
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -170,5 +188,3 @@ re-downloaded in order to locate PACKAGE."
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
 (evil-leader/set-key "/" 'evil-ex-nohighlight)
-
-;;(global-set-key (kbd "C-c C-w") (lambda () (interactive) (evil-window-set-width) (universal-argument 30 evil-window-decrease-width)))
