@@ -1,0 +1,177 @@
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+;;; from purcell/emacs.d
+(defun require-package (package &optional min-version no-refresh)
+  "Install given PACKAGE, optionally requiring MIN-VERSION.
+If NO-REFRESH is non-nil, the available package lists will not be
+re-downloaded in order to locate PACKAGE."
+  (if (package-installed-p package min-version)
+      t
+    (if (or (assoc package package-archive-contents) no-refresh)
+        (package-install package)
+      (progn
+        (package-refresh-contents)
+        (require-package package min-version t)))))
+
+(package-initialize)
+
+(require-package 'evil)
+
+(setq evil-search-module 'evil-search
+      evil-want-C-u-scroll t
+      evil-want-C-w-in-emacs-state t)
+
+(require 'evil)
+(evil-mode t)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(linum ((t (:background "#3F3F3F" :foreground "#9FC59F" :underline nil :height 0.75)))))
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;#    ##     #     #     ###########################################################################
+;# ### # ### # ##### ###############################################################################
+;# ### # ### # #####     ###########################################################################
+;# ### # ### # ######### ###########################################################################
+;#    ##     #     #     ###########################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;#      #  ##  #      #      #      ################################################################
+;# ######      # #### # ###### #####################################################################
+;#    ### #  # #      # ######      ################################################################
+;# ###### #### # #### # ########### ################################################################
+;#      # #### # #### #      #      ################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+
+;; more useful frame title, that show either a file or a
+;; buffer name (if the buffer isn't visiting a file)
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
+(load-theme 'zenburn)
+(global-linum-mode t)
+
+(setq show-paren-delay 0)
+(show-paren-mode 1)
+
+(setq default-directory "C:\\Users\\bpracca\\Documents\\_Notes\\")
+
+(require 'autopair) ;; automatically pair up ()[]{}
+(autopair-global-mode)
+
+(global-set-key (kbd "C-=") 'calculator)
+
+(require 'sentence-highlight)
+(add-hook 'org-mode-hook 'auto-fill-mode)
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;# ### #     # #####  ##  ##########################################################################
+;# ### # ##### #####      ##########################################################################
+;#     #   ### ##### #  # ##########################################################################
+;# ### # ##### ##### #### ##########################################################################
+;# ### #     #     # #### ##########################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+
+(require 'helm-config)
+
+(global-set-key (kbd "C-x b") 'helm-buffers-list) 
+
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;#  ##  #      #      #      #      ################################################################
+;#      # #### # ########  #####  ##################################################################
+;# #  # #      # ##   ###  #####  ##################################################################
+;# #### # #### # #### ###  #####  ##################################################################
+;# #### # #### #      #      ###  ##################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+
+(global-set-key (kbd "C-x g") 'magit-status)
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;#     #     #     #################################################################################
+;# ### # ### # #####################################################################################
+;# ### #     # ##  #################################################################################
+;# ### # ## ## ### #################################################################################
+;#     # ### #     #################################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+(setq org-todo-keywords
+      '((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)")
+      (sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
+      (sequence "|" "CANCELED(a)")))
+
+(setq org-todo-keywords-faces
+      '(("NOW" . "DeepSkyBlue3") ("TODO" . "LightSkyBlue1") ("DONE" . "SpringGreen2") ("LATER" . "pink") ("CHECK" . "DarkGoldenrod")
+	("BUG" . "red") ("ISSUE" . "OrangeRed") ("FIXED" . "SpringGreen2")
+	("CANCELED" . "SpringGreen3")))
+
+(require 'org-bullets)
+(setq org-bullets-face-name (quote org-bullet-face))
+(add-hook 'org-mode-hook (lambda ()(org-bullets-mode 1)))
+(setq org-bullets-bullet-list '("•"))
+
+(setq org-ellipsis " ▼")
+
+;; hide the // or ** or +--+ or __ when stylizing 
+(setq org-hide-emphasis-markers t)
+;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;###################################################################################################
+;# #### #     #  ##  ###############################################################################
+;# #### ### ###      ###############################################################################
+;## ## #### ### #  # ###############################################################################
+;## ## #### ### #### ###############################################################################
+;###  ###     # #### ###############################################################################
+;###################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+
+(require 'key-chord)
+;; Delay to press command
+(setq key-chord-two-keys-delay 1)
+(key-chord-mode 1)
+
+(require 'evil-leader)
+(global-evil-leader-mode)
+(evil-leader/set-leader "<SPC>")
+
+;;SHORTCUTS
+;;;; Esc on jj
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+(evil-leader/set-key "/" 'evil-ex-nohighlight)
+
+;;(global-set-key (kbd "C-c C-w") (lambda () (interactive) (evil-window-set-width) (universal-argument 30 evil-window-decrease-width)))
