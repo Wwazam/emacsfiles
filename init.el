@@ -245,7 +245,6 @@ re-downloaded in order to locate PACKAGE."
             ;; (set-frame-parameter (window-frame) 'background-mode 'dark)
             ;; (enable-theme 'leuven)
 
-            (visual-fill-column-mode)
             (define-key evil-normal-state-local-map [S-return] (quote org-tree-open-in-right-frame))
             (define-key evil-normal-state-local-map [return] (quote org-tree-to-indirect-buffer))
 ))
@@ -256,7 +255,7 @@ re-downloaded in order to locate PACKAGE."
     (delete-other-windows)
     (split-window-right)
     (enlarge-window-horizontally -9999)
-    (enlarge-window-horizontally 30)
+    (enlarge-window-horizontally 50)
   ))
 
 ;;
@@ -301,3 +300,4 @@ re-downloaded in order to locate PACKAGE."
   "o"  'org-open-at-point
   "e"  'outline-show-branches
 )
+(put 'narrow-to-region 'disabled nil)
