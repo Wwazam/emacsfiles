@@ -258,6 +258,15 @@ re-downloaded in order to locate PACKAGE."
     (enlarge-window-horizontally 50)
   ))
 
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "C://Users//bpracca//Documents//_Notes//TODO//todo.org" "Tasks")
+             "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+datetree "C://Users//bpracca//Documents//_Notes//diary.org")
+             "* %?\nEntered on %U\n  %i\n  %a")))
+(define-key global-map (kbd "C-c C-f t")
+  (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//TODO//todo.org")))
+(define-key global-map (kbd "C-c C-f j")
+  (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//diary.org")))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
