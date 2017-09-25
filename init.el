@@ -285,7 +285,7 @@ re-downloaded in order to locate PACKAGE."
 (key-chord-mode 1)
 
 ;;SHORTCUTS
-;;;; Esc on jj
+;;;; Esc on jk
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
 (evil-leader/set-key "/" 'evil-ex-nohighlight)
