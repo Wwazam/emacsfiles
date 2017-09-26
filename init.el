@@ -32,13 +32,13 @@ re-downloaded in order to locate PACKAGE."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
+    ("cd06decefb02a5358264f9964c68a8ffeb02e0dcf7c987a9d55b419d8ee8d233" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
  '(inhibit-startup-screen t)
  '(org-capture-templates
    (quote
     (("j" "Journal entry" entry
       (file "~/org/notes.org")
-      "\\t%U %^{Title}\\n%?"))))
+      "\\t%U %^{Title}\\n%?"))) t)
  '(package-selected-packages
    (quote
     (buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
@@ -267,6 +267,8 @@ re-downloaded in order to locate PACKAGE."
   (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//TODO//todo.org")))
 (define-key global-map (kbd "C-c C-f j")
   (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//diary.org")))
+(define-key global-map (kbd "C-c C-f i")
+  (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
