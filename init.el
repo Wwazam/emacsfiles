@@ -32,8 +32,9 @@ re-downloaded in order to locate PACKAGE."
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("cd06decefb02a5358264f9964c68a8ffeb02e0dcf7c987a9d55b419d8ee8d233" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
+    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "cd06decefb02a5358264f9964c68a8ffeb02e0dcf7c987a9d55b419d8ee8d233" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
  '(inhibit-startup-screen t)
+ '(initial-frame-alist (quote ((fullscreen . maximized))))
  '(org-capture-templates
    (quote
     (("j" "Journal entry" entry
@@ -41,7 +42,7 @@ re-downloaded in order to locate PACKAGE."
       "\\t%U %^{Title}\\n%?"))) t)
  '(package-selected-packages
    (quote
-    (buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
+    (chess smart-mode-line-powerline-theme smart-mode-line diminish powerline-evil buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
  '(preview-gs-options
    (quote
     ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))))
@@ -94,6 +95,14 @@ re-downloaded in order to locate PACKAGE."
 ;###################################################################################################
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+
+(define-key global-map (kbd "C-c f t")
+  (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//TODO//todo.org")))
+(define-key global-map (kbd "C-c f j")
+  (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//diary.org")))
+(define-key global-map (kbd "C-c f i")
+  (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
+
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -107,8 +116,7 @@ re-downloaded in order to locate PACKAGE."
 ;;
 
 ;; start in full screen
-(custom-set-variables
- '(initial-frame-alist (quote ((fullscreen . maximized))))) ;; start maximized
+ ;; start maximized
 
 ;; more useful frame title, that show either a file or a
 ;; buffer name (if the buffer isn't visiting a file)
@@ -274,10 +282,32 @@ re-downloaded in order to locate PACKAGE."
 (define-key global-map (kbd "C-c f i")
   (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
 ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;##################################################################################################
+;#     ###    ## ##### #     #     ################################################################
+;# #### # #### # ##### # ##### #### ###############################################################
+;#     ## #### # ## ## #   ###     ################################################################
+;# ###### #### # # # # # ##### #  #################################################################
+;# #######    ### ### ##     # ### ################################################################
+;##################################################################################################
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+
+;(require 'powerline)
+;(powerline-evil-vim-color-theme)
+;(display-time-mode t)
+;(setq powerline-arrow-shape 'triangles)
+
+(setq powerline-arrow-shape 'curve)
+(setq powerline-default-separator-dir '(right . left))
+(setq sml/theme 'powerline)
+(sml/setup)
+
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
 ;# #### #     #  ##  ###############################################################################
-;# #### ### ###      ###############################################################################
+;# #### ### ###   k   ###############################################################################
 ;## ## #### ### #  # ###############################################################################
 ;## ## #### ### #### ###############################################################################
 ;###  ###     # #### ###############################################################################
