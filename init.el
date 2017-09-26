@@ -249,7 +249,7 @@ re-downloaded in order to locate PACKAGE."
             (define-key evil-normal-state-local-map [return] (quote org-tree-to-indirect-buffer))
 ))
 
-(define-key global-map (kbd "C-c C-h")
+(define-key global-map (kbd "C-c h")
   (lambda ()
     (interactive)
     (delete-other-windows)
@@ -263,11 +263,11 @@ re-downloaded in order to locate PACKAGE."
              "* TODO %?\n  %i\n  %a")
         ("j" "Journal" entry (file+datetree "C://Users//bpracca//Documents//_Notes//diary.org")
              "* %?\nEntered on %U\n  %i\n  %a")))
-(define-key global-map (kbd "C-c C-f t")
+(define-key global-map (kbd "C-c f t")
   (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//TODO//todo.org")))
-(define-key global-map (kbd "C-c C-f j")
+(define-key global-map (kbd "C-c f j")
   (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//diary.org")))
-(define-key global-map (kbd "C-c C-f i")
+(define-key global-map (kbd "C-c f i")
   (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
