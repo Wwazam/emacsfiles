@@ -53,6 +53,9 @@ re-downloaded in order to locate PACKAGE."
  ;; If there is more than one, they won't work right.
  '(linum ((t (:background "#3F3F3F" :foreground "#9FC59F" :underline nil :height 0.75)))))
 
+
+(load "~/.emacs.d/var.el")
+
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;###################################################################################################
@@ -130,8 +133,6 @@ re-downloaded in order to locate PACKAGE."
 
 (setq show-paren-delay 0)
 (show-paren-mode 1)
-
-(setq default-directory "C:\\Users\\bpracca\\Documents\\_Notes\\")
 
 (require 'autopair) ;; automatically pair up ()[]{}
 (autopair-global-mode)
