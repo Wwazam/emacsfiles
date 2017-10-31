@@ -134,7 +134,6 @@ re-downloaded in order to locate PACKAGE."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'jedi)
-(add-to-list 'ac-source-jedi-direct)
 (add-hook 'python-mode-hook 'jedi:setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -200,6 +199,7 @@ re-downloaded in order to locate PACKAGE."
     (evil-append nil)
     )
 
+
 (defun org-tree-open-in-right-frame ()
   (interactive)
   (org-tree-to-indirect-buffer)
@@ -264,7 +264,8 @@ re-downloaded in order to locate PACKAGE."
 (setq key-chord-two-keys-delay 1)
 (key-chord-mode 1)
 
-;;SHORTCUTS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;                               SHORTCUTS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
