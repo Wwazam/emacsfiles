@@ -42,7 +42,7 @@ re-downloaded in order to locate PACKAGE."
       "\\t%U %^{Title}\\n%?"))) t)
  '(package-selected-packages
    (quote
-    (projectile fill-column-indicator chess smart-mode-line-powerline-theme smart-mode-line diminish powerline-evil buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
+    (evil-numbers nov projectile fill-column-indicator chess smart-mode-line-powerline-theme smart-mode-line diminish powerline-evil buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
  '(preview-gs-options
    (quote
     ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))))
@@ -120,6 +120,8 @@ re-downloaded in order to locate PACKAGE."
 (scroll-bar-mode -1)
 
 (blink-cursor-mode 0)
+
+(global-set-key (kbd "<C-tab>") 'self-insert-command)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                               HELM
@@ -263,6 +265,10 @@ re-downloaded in order to locate PACKAGE."
 ;; Delay to press command
 (setq key-chord-two-keys-delay 1)
 (key-chord-mode 1)
+
+(require 'evil-numbers)
+(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                               SHORTCUTS
