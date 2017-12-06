@@ -42,7 +42,7 @@ re-downloaded in order to locate PACKAGE."
       "\\t%U %^{Title}\\n%?"))) t)
  '(package-selected-packages
    (quote
-    (evil-numbers nov projectile fill-column-indicator chess smart-mode-line-powerline-theme smart-mode-line diminish powerline-evil buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
+    (evil-org mu evil-numbers nov projectile fill-column-indicator chess smart-mode-line-powerline-theme smart-mode-line diminish powerline-evil buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
  '(preview-gs-options
    (quote
     ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))))
@@ -56,24 +56,18 @@ re-downloaded in order to locate PACKAGE."
 
 (load "~/.emacs.d/var.el")
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               ACE MODE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ACE MODE
 
 (require 'ace-jump-mode)
-(define-key evil-normal-state-map (kbd "C-.") 'ace-jump-mode)
+(define-key evil-normal-state-map(kbd "C-.") 'ace-jump-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               AUTO-COMPLETE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; AUTO-COMPLETE
 
 (require 'auto-complete-config)
 (ac-config-default)
 (global-auto-complete-mode t)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               BUFF-MOVE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; BUFF-MOVE
 
 (require 'buffer-move)
 (global-set-key (kbd "<C-S-up>")     'buf-move-up)
@@ -81,9 +75,7 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "<C-S-left>")   'buf-move-left)
 (global-set-key (kbd "<C-S-right>")  'buf-move-right)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               EMACS
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; EMACS
 
 ;; start in full screen
  ;; start maximized
@@ -121,32 +113,17 @@ re-downloaded in order to locate PACKAGE."
 
 (blink-cursor-mode 0)
 
-(global-set-key (kbd "<C-tab>") 'self-insert-command)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               HELM
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; HELM
 
 (require 'helm-config)
 
 (global-set-key (kbd "C-x b") 'helm-buffers-list) 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               JEDI
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'jedi)
-(add-hook 'python-mode-hook 'jedi:setup)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               MAGIT
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; MAGIT
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               ORG-MODE
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ORG-MODE
 
 (setq org-todo-keywords
       '((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)")
@@ -243,9 +220,7 @@ re-downloaded in order to locate PACKAGE."
 (define-key global-map (kbd "C-c f i")
   (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               POWER
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; POWER
 
 ;(require 'powerline)
 ;(powerline-evil-vim-color-theme)
@@ -257,9 +232,7 @@ re-downloaded in order to locate PACKAGE."
 (setq sml/theme 'powerline)
 (sml/setup)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               EVIL-MODE 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; EVIL-MODE 
 
 (require 'key-chord)
 ;; Delay to press command
@@ -270,11 +243,13 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
 (global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               SHORTCUTS
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+;; SHORTCUTS
+(key-chord-define evil-visual-state-map "kj" 'evil-change-to-previous-state)
 (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+(key-chord-define evil-replace-state-map "kj" 'evil-normal-state)
+(key-chord-define evil-visual-state-map "jk" 'evil-change-to-previous-state)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
 (evil-leader/set-key "/" 'evil-ex-nohighlight)
 
 (require 'evil-leader)
@@ -297,3 +272,23 @@ re-downloaded in order to locate PACKAGE."
   "e"  'outline-show-branches
 )
 (put 'narrow-to-region 'disabled nil)
+
+;; org-evil
+(require 'org-evil)
+
+;; Color
+;; change mode-line color by evil state
+(lexical-let ((default-color (cons (face-background 'mode-line)
+				(face-foreground 'mode-line))))
+    (add-hook 'post-command-hook
+    (lambda ()
+	(let ((color (cond ((minibufferp) default-color)
+	    ((evil-insert-state-p) '("#e80000" . "#ffffff"))
+	    ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
+	    ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
+	    (t default-color))))
+	(set-face-background 'mode-line (car color))
+	(set-face-foreground 'mode-line (cdr color))))))
+
+(require 'zone)
+(zone-when-idle 120)
