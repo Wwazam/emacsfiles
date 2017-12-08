@@ -244,10 +244,8 @@ re-downloaded in order to locate PACKAGE."
 (global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 
 ;; SHORTCUTS
-(key-chord-define evil-visual-state-map "kj" 'evil-change-to-previous-state)
 (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
 (key-chord-define evil-replace-state-map "kj" 'evil-normal-state)
-(key-chord-define evil-visual-state-map "jk" 'evil-change-to-previous-state)
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
 (evil-leader/set-key "/" 'evil-ex-nohighlight)
@@ -291,4 +289,9 @@ re-downloaded in order to locate PACKAGE."
 	(set-face-foreground 'mode-line (cdr color))))))
 
 (require 'zone)
-(zone-when-idle 120)
+(zone-when-idle 300)
+
+(global-set-key (kbd "C-c <tab>") 'evil-next-buffer)
+(global-set-key (kbd "C-c <backtab>") 'evil-next-buffer)
+
+(evil-set-initial-state 'life-mode 'emacs)
