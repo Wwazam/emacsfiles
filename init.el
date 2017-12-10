@@ -135,8 +135,8 @@ re-downloaded in order to locate PACKAGE."
 ;;                               JEDI
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'jedi)
-(add-hook 'python-mode-hook 'jedi:setup)
+;(require 'jedi)
+;(add-hook 'python-mode-hook 'jedi:setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                               MAGIT
@@ -252,10 +252,10 @@ re-downloaded in order to locate PACKAGE."
 ;(display-time-mode t)
 ;(setq powerline-arrow-shape 'triangles)
 
-(setq powerline-arrow-shape 'curve)
-(setq powerline-default-separator-dir '(right . left))
-(setq sml/theme 'powerline)
-(sml/setup)
+;(setq powerline-arrow-shape 'curve)
+;(setq powerline-default-separator-dir '(right . left))
+;(setq sml/theme 'powerline)
+;(sml/setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                               EVIL-MODE 
