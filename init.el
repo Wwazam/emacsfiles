@@ -1,310 +1,67 @@
+;;; This fixed garbage collection, makes emacs start up faster ;;;;;;;
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6)
+
+(defvar startup/file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
+(defun startup/revert-file-name-handler-alist ()
+  (setq file-name-handler-alist startup/file-name-handler-alist))
+
+(defun startup/reset-gc ()
+  (setq gc-cons-threshold 16777216
+	gc-cons-percentage 0.1))
+
+(add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
+(add-hook 'emacs-startup-hook 'startup/reset-gc)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; This is all kinds of necessary
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(setq package-enable-at-startup nil)
 
-;;; from purcell/emacs.d
-(defun require-package (package &optional min-version no-refresh)
-  "Install given PACKAGE, optionally requiring MIN-VERSION.
-If NO-REFRESH is non-nil, the available package lists will not be
-re-downloaded in order to locate PACKAGE."
-  (if (package-installed-p package min-version)
-      t
-    (if (or (assoc package package-archive-contents) no-refresh)
-        (package-install package)
-      (progn
-        (package-refresh-contents)
-        (require-package package min-version t)))))
-
+;;; remove SC if you are not using sunrise commander and org if you like outdated packages
+(setq package-archives '(("ELPA"  . "http://tromey.com/elpa/")
+			 ("gnu"   . "http://elpa.gnu.org/packages/")
+			 ("melpa" . "https://melpa.org/packages/")
+			 ("org"   . "https://orgmode.org/elpa/")))
 (package-initialize)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require-package 'evil)
+;;; Bootstrapping use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
-(setq evil-search-module 'evil-search
-      evil-want-C-u-scroll t
-      evil-want-C-w-in-emacs-state t)
+;;; This is the actual config file. It is omitted if it doesn't exist so emacs won't refuse to launch.
+(when (file-readable-p "~/.emacs.d/config.org")
+  (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 
-(require 'evil)
-(evil-mode t)
+;;; Experimental email stuff.
+(when (file-readable-p "~/.email/email.org")
+  (org-babel-load-file (expand-file-name "~/.email/email.org")))
+
+;;; Anything below is personal preference.
+;;; I recommend changing these values with the "customize" menu
+;;; You can change the font to suit your liking, it won't break anything.
+;;; The one currently set up is called Terminus.
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("84d2f9eeb3f82d619ca4bfffe5f157282f4779732f48a5ac1484d94d5ff5b279" "cd06decefb02a5358264f9964c68a8ffeb02e0dcf7c987a9d55b419d8ee8d233" "67e998c3c23fe24ed0fb92b9de75011b92f35d3e89344157ae0d544d50a63a72" "f78de13274781fbb6b01afd43327a4535438ebaeec91d93ebdbba1e3fba34d3c" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "3eb8dec7c15ce9eb3584ec9846175d963f838eaeccf2490f8ab3daff59862212" "9541f1dc11258239ef02aa1a5e9db3e1e46bc8fb1d7dbe83946c1541ae6dbdf9" default)))
- '(inhibit-startup-screen t)
- '(initial-frame-alist (quote ((fullscreen . maximized))))
- '(org-capture-templates
-   (quote
-    (("j" "Journal entry" entry
-      (file "~/org/notes.org")
-      "\\t%U %^{Title}\\n%?"))) t)
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(package-selected-packages
    (quote
-    (evil-org mu evil-numbers nov projectile fill-column-indicator chess smart-mode-line-powerline-theme smart-mode-line diminish powerline-evil buffer-move 0blayout visual-fill-column auctex ace-jump-mode org-bullets zenburn-theme monokai-theme sentence-highlight org-journal rainbow-delimiters magit minesweeper evil-leader helm windsize autopair elpy importmagic jedi key-chord inkpot-theme rebecca-theme toxi-theme evil)))
- '(preview-gs-options
-   (quote
-    ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))))
+    (origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
+ '(pos-tip-background-color "#36473A")
+ '(pos-tip-foreground-color "#FFFFC8"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(linum ((t (:background "#3F3F3F" :foreground "#9FC59F" :underline nil :height 0.75)))))
-
-
-(load "~/.emacs.d/var.el")
-
-;; ACE MODE
-
-(require 'ace-jump-mode)
-(define-key evil-normal-state-map(kbd "C-.") 'ace-jump-mode)
-
-;; AUTO-COMPLETE
-
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode t)
-
-;; BUFF-MOVE
-
-(require 'buffer-move)
-(global-set-key (kbd "<C-S-up>")     'buf-move-up)
-(global-set-key (kbd "<C-S-down>")   'buf-move-down)
-(global-set-key (kbd "<C-S-left>")   'buf-move-left)
-(global-set-key (kbd "<C-S-right>")  'buf-move-right)
-
-;; EMACS
-
-;; start in full screen
- ;; start maximized
-
-;; more useful frame title, that show either a file or a
-;; buffer name (if the buffer isn't visiting a file)
-(setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
-
-(load-theme 'zenburn)
-(global-linum-mode t)
-
-(setq show-paren-delay 0)
-(show-paren-mode 1)
-
-(require 'autopair) ;; automatically pair up ()[]{}
-(autopair-global-mode)
-
-(global-set-key (kbd "C-=") 'calculator)
-
-(require 'sentence-highlight)
-(add-hook 'org-mode-hook 'auto-fill-mode)
-
-;; Changes all yes/no questions to y/n type
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;; Turn off the menu bar at the top of each frame because it's distracting
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-
-;; Hide scroll bars
-(scroll-bar-mode -1)
-
-(blink-cursor-mode 0)
-
-;; HELM
-
-(require 'helm-config)
-
-(global-set-key (kbd "C-x b") 'helm-buffers-list) 
-
-<<<<<<< HEAD
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               JEDI
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;(require 'jedi)
-;(add-hook 'python-mode-hook 'jedi:setup)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;                               MAGIT
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-=======
-;; MAGIT
->>>>>>> 05fd5bf03be07a9fd39e78fd1b2ae941a2d49991
-
-(global-set-key (kbd "C-x g") 'magit-status)
-
-;; ORG-MODE
-
-(setq org-todo-keywords
-      '((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)")
-      (sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
-      (sequence "|" "CANCELED(a)")))
-
-(setq org-todo-keywords-faces
-      '(("NOW" . "DeepSkyBlue3") ("TODO" . "LightSkyBlue1") ("DONE" . "SpringGreen2") ("LATER" . "pink") ("CHECK" . "DarkGoldenrod")
-	("BUG" . "red") ("ISSUE" . "OrangeRed") ("FIXED" . "SpringGreen2")
-	("CANCELED" . "SpringGreen3")))
-
-(require 'org-bullets)
-(setq org-bullets-face-name (quote org-bullet-face))
-(add-hook 'org-mode-hook (lambda ()(org-bullets-mode 1)))
-(setq org-bullets-bullet-list '("•"))
-
-(setq org-ellipsis " ▼")
-
-;; hide the // or ** or +--+ or __ when stylizing 
-(setq org-hide-emphasis-markers t)
-
-;; auto indent text in headings
-(setq org-startup-indented 1)
-
-;; setup interpreters for source code blocks
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)))
-
-;; org capture
-(define-key global-map "\C-cc" 'org-capture)
-(setq org-default-notes-file "c:\\Users\\bpracca\\Documents\\_Notes\\capture\\note.org")
-
-
-
-
-;; An override for this function to make inserting headings work
-;; a bit better. Makes O respect heading content.
-(defun shellhead/smart-org-insert ()
-  "Creates a new heading if currently in a heading, creates a new list item 
-   if in a list, or creates a newline if neither."
-  (interactive)
-  (cond
-   ((org-at-heading-p) (org-insert-heading-respect-content) (evil-insert-state))
-   ((org-at-item-p) (org-insert-item))))
-
-(defun evil-org-eol-call (fun)
-    "Go to end of line and call provided function.
-  FUN function callback"
-    (end-of-visible-line)
-    (funcall fun)
-    (evil-append nil)
-    )
-
-
-(defun org-tree-open-in-right-frame ()
-  (interactive)
-  (org-tree-to-indirect-buffer)
-  (windmove-right))
-
-(add-hook 'org-mode-hook 
-          (lambda ()
-            ;; TODO: set fringe/gutter mode and theme by mode, no fringe and white them for ORG files
-            ;; fringe and black theme for code
-            (fringe-mode 0)
-            
-            ;; (set-frame-parameter (window-frame) 'background-mode 'dark)
-            ;; (enable-theme 'leuven)
-
-            (define-key evil-normal-state-local-map [S-return] (quote org-tree-open-in-right-frame))
-            (define-key evil-normal-state-local-map [return] (quote org-tree-to-indirect-buffer))
-))
-
-(define-key global-map (kbd "C-c h")
-  (lambda ()
-    (interactive)
-    (delete-other-windows)
-    (split-window-right)
-    (enlarge-window-horizontally -9999)
-    (enlarge-window-horizontally 50)
-  ))
-
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "C://Users//bpracca//Documents//_Notes//TODO//todo.org" "Tasks")
-             "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+datetree "C://Users//bpracca//Documents//_Notes//diary.org")
-             "* %?\nEntered on %U\n  %i\n  %a")
-	("n" "Note" entry (file (concat org-directory "/gtd.org"))
-	     "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)))
-(define-key global-map (kbd "C-c f t")
-  (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//TODO//todo.org")))
-(define-key global-map (kbd "C-c f j")
-  (lambda () (interactive)(find-file "C://Users//bpracca//Documents//_Notes//diary.org")))
-(define-key global-map (kbd "C-c f i")
-  (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
-
-;; POWER
-
-;(require 'powerline)
-;(powerline-evil-vim-color-theme)
-;(display-time-mode t)
-;(setq powerline-arrow-shape 'triangles)
-
-;(setq powerline-arrow-shape 'curve)
-;(setq powerline-default-separator-dir '(right . left))
-;(setq sml/theme 'powerline)
-;(sml/setup)
-
-;; EVIL-MODE 
-
-(require 'key-chord)
-;; Delay to press command
-(setq key-chord-two-keys-delay 1)
-(key-chord-mode 1)
-
-(require 'evil-numbers)
-(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
-(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
-
-;; SHORTCUTS
-(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
-(key-chord-define evil-replace-state-map "kj" 'evil-normal-state)
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
-(evil-leader/set-key "/" 'evil-ex-nohighlight)
-
-(require 'evil-leader)
-(evil-leader/set-leader "<SPC>")
-(global-evil-leader-mode)
-(evil-leader/set-key
-  "f" 'helm-find-files
-  "b" 'helm-mini
-  "-" 'text-scale-decrease
-  "+" 'text-scale-increase
-  "x" 'helm-M-x
-  "r" 'helm-M-x
-  "k" 'kill-buffer)
-(evil-leader/set-key-for-mode 'org-mode
-  "t"  'org-show-todo-tree
-  "a"  'org-agenda
-  "c"  'org-archive-subtree
-  "l"  'evil-org-open-links
-  "o"  'org-open-at-point
-  "e"  'outline-show-branches
-)
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 122 :width normal :foundry "1ASC" :family "xos4 Terminus"))))
+ '(fringe ((t (:background "#292b2e")))))
 (put 'narrow-to-region 'disabled nil)
-
-;; org-evil
-(require 'org-evil)
-
-;; Color
-;; change mode-line color by evil state
-(lexical-let ((default-color (cons (face-background 'mode-line)
-				(face-foreground 'mode-line))))
-    (add-hook 'post-command-hook
-    (lambda ()
-	(let ((color (cond ((minibufferp) default-color)
-	    ((evil-insert-state-p) '("#e80000" . "#ffffff"))
-	    ((evil-emacs-state-p)  '("#444488" . "#ffffff"))
-	    ((buffer-modified-p)   '("#006fa0" . "#ffffff"))
-	    (t default-color))))
-	(set-face-background 'mode-line (car color))
-	(set-face-foreground 'mode-line (cdr color))))))
-
-(require 'zone)
-(zone-when-idle 300)
-
-(global-set-key (kbd "C-c <tab>") 'evil-next-buffer)
-(global-set-key (kbd "C-c <backtab>") 'evil-next-buffer)
-
-(evil-set-initial-state 'life-mode 'emacs)
