@@ -4,7 +4,7 @@
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
-[[./img/screen.png]]
+
 * Installation
 ** Quick Installation
 =git clone https://github.com/daedreth/UncleDavesEmacs ~/.emacs.d=
@@ -213,7 +213,8 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 * Elscreen
 ** Installation
 #+BEGIN_SRC emacs-lisp
-(require 'elscreen)
+(use-package elscreen
+    :ensure t)
 (elscreen-start)
 (elscreen-set-prefix-key "\C-l")
 (setq elscreen-display-tab nil)
@@ -1140,9 +1141,7 @@ Requires libclang to be installed.
 **** hs-minor mode
 folding mode 
 #+BEGIN_SRC emacs-lisp
-  (use-package origami
-      :ensure t)
-  (add-hook 'python-mode-hook 'origami-mode)
+    (add-hook 'python-mode-hook 'hs-minor-mode)
 #+END_SRC
 *** emacs-lisp
 **** eldoc
@@ -1418,7 +1417,8 @@ C-c h to open plan in left pane
 (use-package org-evil
     :ensure t) 
 #+END_SRC
-* Instant messaging
+
+* Instant messaging 
 I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
 for a way to do my messaging from within emacs.
 There is plenty of IRC clients in the repositories, and some more in the emacs repositories
@@ -1552,3 +1552,11 @@ set key
 
 | test        | 1 oui |
 | testesutaoe |       |
+** RSS
+Elscreen for RSS feed
+#+BEGIN_SRC emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :bind
+        ("C-x w" . 'elfeed))
+#+END_SRC
