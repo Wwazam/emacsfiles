@@ -195,20 +195,20 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 
 ** Evil Leader
 #+BEGIN_SRC emacs-lisp
-(use-package evil-leader
-    :ensure t)
-(evil-leader/set-leader "<SPC>")
-(global-evil-leader-mode)
-(evil-leader/set-key
-"a" 'org-agenda
-"b" 'helm-buffers-list
-"f" 'helm-find-files
-"k" 'kill-current-buffer
-"o" 'evil-org-open-link
-"t" 'org-show-todo-tree
-"-" 'text-scale-decrease
-"+" 'text-scale-increase
-"." 'avy-goto-word-1)
+;(use-package evil-leader
+    ;:ensure t)
+;(evil-leader/set-leader "<SPC>")
+;(global-evil-leader-mode)
+;(evil-leader/set-key
+;"a" 'org-agenda
+;"b" 'helm-buffers-list
+;"f" 'helm-find-files
+;"k" 'kill-current-buffer
+;"o" 'evil-org-open-link
+;"t" 'org-show-todo-tree
+;"-" 'text-scale-decrease
+;"+" 'text-scale-increase
+;"." 'avy-goto-word-1)
 #+END_SRC
 * Elscreen
 ** Installation
@@ -1389,6 +1389,11 @@ Here is how we add more of them!
 C-c h to open plan in left pane
 
 #+BEGIN_SRC emacs-lisp
+(defun org-tree-open-in-right-frame ()
+    (interactive)
+    (org-tree-to-indirect-buffer)
+    (windmove-right))
+
 (add-hook 'org-mode-hook 
           (lambda ()
             ;; TODO: set fringe/gutter mode and theme by mode, no fringe and white them for ORG files
@@ -1418,6 +1423,15 @@ C-c h to open plan in left pane
     :ensure t) 
 #+END_SRC
 
+** org-agenda
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c a") 'org-agenda)
+#+END_SRC
+
+** org-journal
+#+BEGIN_SRC emacs-lisp
+(use-package org-journal)
+#+END_SRC
 * Instant messaging 
 I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
 for a way to do my messaging from within emacs.
