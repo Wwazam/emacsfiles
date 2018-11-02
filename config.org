@@ -210,6 +210,14 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 ;"+" 'text-scale-increase
 ;"." 'avy-goto-word-1)
 #+END_SRC
+
+** Evil Numbers
+#+BEGIN_SRC emacs-lisp
+(use-package evil-numbers
+    :ensure t)
+(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
+#+END_SRC
 * Elscreen
 ** Installation
 #+BEGIN_SRC emacs-lisp
@@ -221,8 +229,6 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-set-key (kbd "C-l C-l") 'elscreen-swap)
 #+END_SRC
 
-    for var in collection:
-        
 * Window Manager
 Everything regarding the WM or DE-like functionality is bundled here, remove the entire section if you do not wish to use =exwm=.
 
@@ -1432,6 +1438,32 @@ C-c h to open plan in left pane
 #+BEGIN_SRC emacs-lisp
 (use-package org-journal)
 #+END_SRC
+** clocking
+*** change indent symbol
+org indent symbol in clock reports is bugged (some latex problem, idk, idc) and we get those nice "/emsp", so let's change that
+#+BEGIN_SRC emacs-lisp
+(defun my-org-clocktable-indent-string (level)
+  (if (= level 1)
+      ""
+    (let ((str "."))
+      (while (> level 2)
+        (setq level (1- level)
+              str (concat str "  ")))
+      (concat str "  "))))
+
+(advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
+#+END_SRC
+
+#+RESULTS:
+*** drawer
+automatically add clock items in a drawer
+#+BEGIN_SRC emacs-lisp
+  (setq org-clock-into-drawer t)
+#+END_SRC
+
+#+RESULTS:
+: t
+
 * Instant messaging 
 I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
 for a way to do my messaging from within emacs.
