@@ -1457,12 +1457,12 @@ C-c h to open plan in left pane
 #+END_SRC
 ** Run all
 #+BEGIN_SRC emacs-lisp
-(define-key LaTeX-mode-map (kbd "C-c C-a")
-  (lambda ()
-    "Save the buffer and run `TeX-command-run-all`."
-    (interactive)
-    (save-buffer)
-    (TeX-command-run-all nil)))
+  ;; (define-key LaTeX-mode-map (kbd "C-c C-a")
+  ;;   (lambda ()
+  ;;     "Save the buffer and run `TeX-command-run-all`."
+  ;;     (interactive)
+  ;;     (save-buffer)
+  ;;     (TeX-command-run-all nil)))
 #+END_SRC
 * Instant messaging 
 I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
