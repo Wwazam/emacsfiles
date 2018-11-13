@@ -4,8 +4,7 @@
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
-
-
+  
 * Installation
 ** Quick Installation
 =git clone https://github.com/daedreth/UncleDavesEmacs ~/.emacs.d=
@@ -214,6 +213,11 @@ Lets us use asynchronous processes wherever possible, pretty useful.
   ;"-" 'text-scale-decrease
   ;"+" 'text-scale-increase
   ;"." 'avy-goto-word-1)
+#+END_SRC
+** Keybindings
+*** remove highlights
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-x /") 'evil-ex-nohighlight)
 #+END_SRC
 * Elscreen
 ** Installation
@@ -1451,6 +1455,15 @@ C-c h to open plan in left pane
   (setq TeX-parse-self t)
 
 #+END_SRC
+** Run all
+#+BEGIN_SRC emacs-lisp
+(define-key LaTeX-mode-map (kbd "C-c C-a")
+  (lambda ()
+    "Save the buffer and run `TeX-command-run-all`."
+    (interactive)
+    (save-buffer)
+    (TeX-command-run-all nil)))
+#+END_SRC
 * Instant messaging 
 I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
 for a way to do my messaging from within emacs.
@@ -1486,11 +1499,12 @@ this way you always know who you are typing to.
 #+END_SRC
 ** org-babel
 #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-  'org-babel-load-languages
-  '((python . t)
-(sql . t)
-     (emacs-lisp . nil)))
+(org-babel-do-load-languages
+    'org-babel-load-languages
+        '(
+        (python . t)
+        (sql . t)
+        (emacs-lisp . nil)))
 #+END_SRC
 ** macros
 *** keep recording even when changing buffers
