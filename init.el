@@ -20,11 +20,14 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 
-;;; remove SC if you are not using sunrise commander and org if you like outdated packages
+;;; DEBUG
+;(setq debug-on-error t)
+
 (setq package-archives '(("ELPA"  . "http://tromey.com/elpa/")
 			 ("gnu"   . "http://elpa.gnu.org/packages/")
 			 ("melpa" . "https://melpa.org/packages/")
-			 ("org"   . "https://orgmode.org/elpa/")))
+			 ("org"   . "https://orgmode.org/elpa/")
+			 ))
 (package-initialize)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -38,8 +41,8 @@
   (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 
 ;;; Experimental email stuff.
-(when (file-readable-p "~/.email/email.org")
-  (org-babel-load-file (expand-file-name "~/.email/email.org")))
+;(when (file-readable-p "~/.email/email.org")
+;  (org-babel-load-file (expand-file-name "~/.email/email.org")))
 
 ;;; Anything below is personal preference.
 ;;; I recommend changing these values with the "customize" menu
@@ -58,7 +61,7 @@
  '(org-journal-dir "~/documents/notes/journal/")
  '(package-selected-packages
    (quote
-    (evil-number evil-numbers evil-opener org-journal origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
+    (neotree lorem-ipsum js2-mode evil-number evil-numbers evil-opener org-journal origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8"))
 (custom-set-faces
@@ -66,6 +69,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 122 :width normal :foundry "1ASC" :family "xos4 Terminus"))))
+ '(default ((t (:inherit nil :stipple nil :background "#3F3F3F" :foreground "#DCDCCC" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "Bits" :family "Bitstream Vera Sans Mono"))))
  '(fringe ((t (:background "#292b2e")))))
 (put 'narrow-to-region 'disabled nil)

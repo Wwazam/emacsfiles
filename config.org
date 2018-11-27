@@ -5,6 +5,7 @@
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
 
+
 * Installation
 ** Quick Installation
 =git clone https://github.com/daedreth/UncleDavesEmacs ~/.emacs.d=
@@ -94,15 +95,19 @@ The most important part of every configuration.
 ** A nice theme
 My new favourite one I guess, really decent default values.
 #+BEGIN_SRC emacs-lisp
-  (use-package zenburn-theme
+(use-package zenburn-theme
     :ensure t
     :init
-      (load-theme 'zenburn t))
+    (load-theme 'zenburn t))
 #+END_SRC
 ** Disable bold globally
 Bold font sucks and move everything around
 #+BEGIN_SRC emacs-lisp
 (set-face-bold-p 'bold nil)
+#+END_SRC
+** Font
+#+BEGIN_SRC emacs-lisp
+(set-face-font 'default "-Bits-Bitstream vera Sans Mono-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
 #+END_SRC
 * Basic Interface Settings
 These are setting that do not depend on packages and are built-in enhancements to the UI.
@@ -196,7 +201,7 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 ** Evil Leader
 #+BEGIN_SRC emacs-lisp
 ;(use-package evil-leader
-    ;:ensure t)
+;    :ensure t)
 ;(evil-leader/set-leader "<SPC>")
 ;(global-evil-leader-mode)
 ;(evil-leader/set-key
@@ -441,7 +446,7 @@ These won't work in the terminal version or the virtual console, obvious reasons
 I use qutebrowser, so that's what I'll set up.
 #+BEGIN_SRC emacs-lisp
   (setq browse-url-browser-function 'browse-url-generic
-        browse-url-generic-program "qutebrowser")
+        browse-url-generic-program "firefox")
 #+END_SRC
 
 * Projectile
@@ -718,22 +723,6 @@ This can be invoked using =C-M-s-k=. This keybinding makes sure you don't hit it
   (global-set-key (kbd "C-M-s-k") 'close-all-buffers)
 #+END_SRC
 
-** line numbers and programming
-Every now and then all of us feel the urge to be productive and write some code.
-In the event that this happens, the following bit of configuration makes sure that 
-we have access to relative line numbering in programming-related modes.
-I highly recommend not enabling =linum-relative-mode= globally, as it messed up 
-something like =ansi-term= for instance.
-#+BEGIN_SRC emacs-lisp
-  (use-package linum
-    :ensure t
-    :config
-      (setq linum-relative-current-symbol "")
-      (add-hook 'prog-mode-hook 'linum-mode)
-)
-(setq linum-format "%d ")
-#+END_SRC
-
 ** ido and why I started using helm
 Sometimes, you don't realize how good something is until you try it extensively.
 I give in, helm is awesome. I'll end up customizing it more eventually,
@@ -789,11 +778,19 @@ and improves your life tremendously.
 
 I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= is moving by searching characters.
 #+BEGIN_SRC emacs-lisp
-(use-package avy
-    :ensure t)
-(define-key evil-normal-state-map(kbd "C-.") 'avy-goto-word-1)
+  (use-package avy
+      :ensure t
+      :bind
+          ("C-." . 'avy-goto-word-1))
 #+END_SRC
 
+** transpose frames
+#+BEGIN_SRC emacs-lisp
+  (use-package transpose-frame
+  :ensure t
+  :bind
+    ("C-x t" . 'transpose-frame))
+#+END_SRC
 * The terminal
 I have used urxvt for years, and I miss it sometimes, but ansi-term is enough for most of my tasks.
 
@@ -1040,7 +1037,13 @@ Minor, non-completion related settings and plugins for writing code.
 ** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :ensure t)
+    :defer 2
+    :diminish
+    :custom
+    (flycheck-display-errors-delay .3)
+    (flycheck-stylelintrc "~/.stylelintrc.json")
+	)
+
 #+END_SRC
 
 ** company mode
@@ -1120,7 +1123,7 @@ Requires libclang to be installed.
 
 **** flycheck
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'python-mode-hook 'flycheck-mode)
+(add-hook 'python-mode-hook 'flycheck-mode)
 #+END_SRC
 **** company
 #+BEGIN_SRC emacs-lisp
@@ -1210,7 +1213,6 @@ folding mode
       (add-hook 'lua-mode-hook 'custom-lua-repl-bindings)
       (add-hook 'lua-mode-hook 'lua-mode-company-init))
 #+END_SRC
-
 *** bash
 **** yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -1281,7 +1283,6 @@ Those are all rather self-explanatory.
 ** Common settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq org-ellipsis " ")
   (setq org-src-fontify-natively t)
   (setq org-src-tab-acts-natively t)
   (setq org-confirm-babel-evaluate nil)
@@ -1311,14 +1312,16 @@ Those are all rather self-explanatory.
 ** Org Bullets
 Makes it all look a bit nicer, I hate looking at asterisks.
 #+BEGIN_SRC emacs-lisp
-  (use-package org-bullets
-    :ensure t)
-(setq org-bullets-fac-name (quote org-bullet-face))
-(add-hook 'org-mode-hook (lambda ()(org-bullets-mode 1)))
+    (use-package org-bullets
+      :ensure t)
+  (setq org-bullets-fac-name (quote org-bullet-face))
+  (add-hook 'org-mode-hook (lambda ()(org-bullets-mode 1)))
 
-(setq org-bullets-bullet-list '("·"))
+  (setq org-bullets-bullet-list '("·"))
 
-(setq org-ellipsis " ▼")
+  ;(setq org-ellipsis " ▼")
+(set-display-table-slot standard-display-table 
+                        'selective-display (string-to-vector " ▼")) ; or whatever you like
 #+END_SRC
 
 ** Easy-to-add emacs-lisp template
@@ -1327,7 +1330,6 @@ Hitting tab after an "<el" in an org-mode file will create a template for elisp 
   (add-to-list 'org-structure-template-alist
 	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 #+END_SRC
-
 ** Exporting options
 One of the best things about org is the ability to export your file to many formats.
 Here is how we add more of them!
@@ -1346,18 +1348,30 @@ Here is how we add more of them!
 
 ** TO DO keywords
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords 
-'((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)" )
-(sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
-(sequence "|" "CANCELED(a)")
-))
+    (setq org-todo-keywords 
+    '((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)" )
+    (sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
+    (sequence "|" "CANCELED(a)")
+    ))
 
-(setq org-todo-keywords-faces
-'(("NOW" . "DeepSkyBlue3") ("TODO" . "LightSkyBlue1") ("DONE" . "SpringGreen2") ("LATER" . "pink") ("CHECK" . "DarkGoldenrod")
-("BUG" . "red") ("ISSUE" . "OrangeRed") ("FIXED" . "SpringGreen2")
-("CANCELED" . "SpringGreen4")))
+  (setq org-todo-keyword-faces
+    '(
+        ("NOW" .(:foreground "#ac7373" :weight bold)) 
+        ("TODO" .(:foreground "#bc8383" :weight bold)) 
+        ("DONE" .(:foreground "#94bff3")) 
+        ("LATER" .(:foreground "#ffc9a4")) 
+        ("CHECK" .(:foreground "#f0dfaf")) 
+        ("BUG" .(:foreground "#8c5353" :weight bold)) 
+        ("ISSUE" .(:foreground "#dfaf8f")) 
+        ("FIXED" .(:foreground "#9fc59f"))
+        ("CANCELED" .(:foreground "#7f9f7f"))
+    ))
 #+END_SRC
 
+** Closed timestamp
+#+BEGIN_SRC emacs-lisp
+(setq org-log-done 'time)
+#+END_SRC
 ** Capture
 *** Installation
 #+BEGIN_SRC emacs-lisp
@@ -1395,40 +1409,39 @@ Here is how we add more of them!
 C-c h to open plan in left pane
 
 #+BEGIN_SRC emacs-lisp
-(defun org-tree-open-in-right-frame ()
+  (defun org-tree-open-in-right-frame ()
     (interactive)
     (org-tree-to-indirect-buffer)
-    (windmove-right))
+  (windmove-right))
 
-(add-hook 'org-mode-hook 
-          (lambda ()
-            ;; TODO: set fringe/gutter mode and theme by mode, no fringe and white them for ORG files
-            ;; fringe and black theme for code
-            (fringe-mode 0)
-            
-            ;; (set-frame-parameter (window-frame) 'background-mode 'dark)
-            ;; (enable-theme 'leuven)
+    (add-hook 'org-mode-hook 
+              (lambda ()
+                ;; TODO: set fringe/gutter mode and theme by mode, no fringe and white them for ORG files
+                ;; fringe and black theme for code
+                (fringe-mode 0)
+                ;; (set-frame-parameter (window-frame) 'background-mode 'dark)
+                ;; (enable-theme 'leuven)
 
-            (define-key evil-normal-state-local-map [S-return] (quote org-tree-open-in-right-frame))
-            (define-key evil-normal-state-local-map [return] (quote org-tree-to-indirect-buffer))
-))
+                (define-key evil-normal-state-local-map [S-return] (quote org-tree-open-in-right-frame))
+                (define-key evil-normal-state-local-map [return] (quote org-tree-to-indirect-buffer))
+    ))
 
-(define-key global-map (kbd "C-c h")
-  (lambda ()
-    (interactive)
-    (delete-other-windows)
-    (split-window-right)
-    (enlarge-window-horizontally -9999)
-    (enlarge-window-horizontally 50)
-  ))
+    (define-key global-map (kbd "C-c h")
+      (lambda ()
+        (interactive)
+        (delete-other-windows)
+        (split-window-right)
+        (enlarge-window-horizontally -9999)
+        (enlarge-window-horizontally 50)
+      ))
 #+END_SRC
 
-** org-evil
+** evil-org
 #+BEGIN_SRC emacs-lisp
-(use-package org-evil
+(use-package evil-org
     :ensure t) 
+(add-hook 'org-mode-hook (lambda ()(evil-org-mode 1)))
 #+END_SRC
-
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -1436,7 +1449,8 @@ C-c h to open plan in left pane
 
 ** org-journal
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal)
+  (use-package org-journal
+:ensure t)
 #+END_SRC
 ** clocking
 *** change indent symbol
@@ -1478,35 +1492,40 @@ You might want to edit the default nick, it's password protected anyway so don't
 This also hides some of the channel messages to avoid cluttering the buffer.
 The other line changes the prompt for each channel buffer to match the channel name,
 this way you always know who you are typing to.
+>>>>>>> d58f3eaff9723e802409b1f71dd25daf170e59b3
 #+BEGIN_SRC emacs-lisp
-  (setq erc-nick "daedreth")
-  (setq erc-prompt (lambda () (concat "[" (buffer-name) "]")))
-  (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+(define-key global-map (kbd "C-c a") 'org-agenda)
+(setq org-agenda-custom-commands
+      '(("h" "Daily habits" 
+         ((agenda ""))
+         ((org-agenda-show-log t)
+          (org-agenda-ndays 7)
+          (org-agenda-log-mode-items '(state))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+        ;; other commands here
+        ))
 #+END_SRC
-
-*** Poor mans selectable server list
-What it says on the tin, this changes the =erc= history to include the server I connect to often.
+** org-number
 #+BEGIN_SRC emacs-lisp
-  (setq erc-server-history-list '("irc.freenode.net"
-                                  "localhost"))
+(use-package evil-numbers
+    :ensure t) 
+(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 #+END_SRC
-
-*** Nick highlighting
-You can even highlight nicks to make the buffers a bit more visually pleasing and easier to look at.
+** org-babel
 #+BEGIN_SRC emacs-lisp
-(use-package erc-hl-nicks
-  :ensure t
-  :config
-    (erc-update-modules))
+  (org-babel-do-load-languages
+  'org-babel-load-languages
+  '((python . t)
+(sql . t)
+     (emacs-lisp . nil)))
 #+END_SRC
-
-** rich presence for discord
-Memes, but it's fun and tiny.
+** macros
+*** keep recording even when changing buffers
+https://github.com/emacs-evil/evil/issues/847
 #+BEGIN_SRC emacs-lisp
-  (use-package elcord
-    :ensure t)
+(defun evil-abort-macro ())
 #+END_SRC
-
 * Media
 Why bother with an external media manager when emacs is a thing.
 EMMS is huge, incredibly powerful and luckily well documented.
@@ -1595,9 +1614,6 @@ set key
 (global-set-key (kbd "C-=") 'calculator)
 (add-to-list 'evil-emacs-state-modes 'calculator-mode)
 #+END_SRC
-
-| test        | 1 oui |
-| testesutaoe |       |
 ** RSS
 Elscreen for RSS feed
 #+BEGIN_SRC emacs-lisp
@@ -1605,4 +1621,17 @@ Elscreen for RSS feed
     :ensure t
     :bind
         ("C-x w" . 'elfeed))
+#+END_SRC
+** Neotree
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+      :ensure t
+      :bind ("C-x C-n" . 'neotree-toggle))
+  (add-to-list 'evil-emacs-state-modes 'neotree-mode)
+#+END_SRC
+* Misc keymapping
+** M-x
+This keybinding got removed for some reasons
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-SPC") 'execute-extended-command)
 #+END_SRC
