@@ -197,27 +197,18 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-unset-key (kbd "C-."))
 #+END_SRC
 
-** Evil Leader
-#+BEGIN_SRC emacs-lisp
-  ;(use-package evil-leader
-  ;    :ensure t)
-  ;(evil-leader/set-leader "<SPC>")
-  ;(global-evil-leader-mode)
-  ;(evil-leader/set-key
-  ;"a" 'org-agenda
-  ;"b" 'helm-buffers-list
-  ;"f" 'helm-find-files
-  ;"k" 'kill-current-buffer
-  ;"o" 'evil-org-open-link
-  ;"t" 'org-show-todo-tree
-  ;"-" 'text-scale-decrease
-  ;"+" 'text-scale-increase
-  ;"." 'avy-goto-word-1)
-#+END_SRC
 ** Keybindings
 *** remove highlights
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-x /") 'evil-ex-nohighlight)
+#+END_SRC
+
+** Evil Numbers
+#+BEGIN_SRC emacs-lisp
+(use-package evil-numbers
+    :ensure t)
+(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 #+END_SRC
 * Elscreen
 ** Installation
@@ -230,8 +221,6 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-set-key (kbd "C-l C-l") 'elscreen-swap)
 #+END_SRC
 
-    for var in collection:
-        
 * Window Manager
 Everything regarding the WM or DE-like functionality is bundled here, remove the entire section if you do not wish to use =exwm=.
 
@@ -771,9 +760,10 @@ and improves your life tremendously.
 
 I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= is moving by searching characters.
 #+BEGIN_SRC emacs-lisp
-(use-package avy
-    :ensure t)
-(define-key evil-normal-state-map(kbd "C-.") 'avy-goto-word-1)
+  (use-package avy
+      :ensure t
+      :bind
+          ("C-." . 'avy-goto-word-1))
 #+END_SRC
 
 ** transpose frames
@@ -1413,7 +1403,6 @@ C-c h to open plan in left pane
                 ;; TODO: set fringe/gutter mode and theme by mode, no fringe and white them for ORG files
                 ;; fringe and black theme for code
                 (fringe-mode 0)
-            
                 ;; (set-frame-parameter (window-frame) 'background-mode 'dark)
                 ;; (enable-theme 'leuven)
 
@@ -1435,8 +1424,7 @@ C-c h to open plan in left pane
 #+BEGIN_SRC emacs-lisp
 (use-package evil-org
     :ensure t) 
-(add-hook 'org-mode-hook 
-                (evil-org-mode))
+(add-hook 'org-mode-hook (lambda ()(evil-org-mode 1)))
 #+END_SRC
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
@@ -1445,8 +1433,30 @@ C-c h to open plan in left pane
 
 ** org-journal
 #+BEGIN_SRC emacs-lisp
-(use-package org-journal
+  (use-package org-journal
 :ensure t)
+#+END_SRC
+** clocking
+*** change indent symbol
+org indent symbol in clock reports is bugged (some latex problem, idk, idc) and we get those nice "/emsp", so let's change that
+#+BEGIN_SRC emacs-lisp
+(defun my-org-clocktable-indent-string (level)
+  (if (= level 1)
+      ""
+    (let ((str "."))
+      (while (> level 2)
+        (setq level (1- level)
+              str (concat str "  ")))
+      (concat str "  "))))
+
+(advice-add 'org-clocktable-indent-string :override #'my-org-clocktable-indent-string)
+#+END_SRC
+
+#+RESULTS:
+*** drawer
+automatically add clock items in a drawer
+#+BEGIN_SRC emacs-lisp
+  (setq org-clock-into-drawer t)
 #+END_SRC
 * LaTeX
 ** Initialize
@@ -1464,6 +1474,10 @@ C-c h to open plan in left pane
   ;;     (save-buffer)
   ;;     (TeX-command-run-all nil)))
 #+END_SRC
+
+#+RESULTS:
+: t
+
 * Instant messaging 
 I like IRC, I also like other protocols but I enjoy IRC most, it's obvious that I long
 for a way to do my messaging from within emacs.
@@ -1600,9 +1614,6 @@ set key
 (global-set-key (kbd "C-=") 'calculator)
 (add-to-list 'evil-emacs-state-modes 'calculator-mode)
 #+END_SRC
-
-| test        | 1 oui |
-| testesutaoe |       |
 ** RSS
 Elscreen for RSS feed
 #+BEGIN_SRC emacs-lisp
@@ -1610,6 +1621,13 @@ Elscreen for RSS feed
     :ensure t
     :bind
         ("C-x w" . 'elfeed))
+#+END_SRC
+** Neotree
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+      :ensure t
+      :bind ("C-x C-n" . 'neotree-toggle))
+  (add-to-list 'evil-emacs-state-modes 'neotree-mode)
 #+END_SRC
 * Misc keymapping
 ** M-x
