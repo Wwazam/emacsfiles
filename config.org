@@ -1,4 +1,3 @@
-
 #+STARTUP: overview
 #+TITLE: Uncle Dave's Emacs
 #+CREATOR: Dawid 'daedreth' Eckert
@@ -99,12 +98,12 @@ Lets us use asynchronous processes wherever possible, pretty useful.
     :ensure t
     :bind ("C-." . nil)
     :config
-      (use-package ace-jump-mode :ensure t)
-      (define-key evil-insert-state-map (kbd "C-.") 'ace-jump-mode)
-      (define-key evil-normal-state-map (kbd "C-.") 'ace-jump-mode)
-      (define-key evil-visual-state-map (kbd "C-.") 'ace-jump-mode)
-      (define-key evil-motion-state-map (kbd "C-.") 'ace-jump-mode)
-      (bind-key "C-." 'ace-jump-mode)
+      (use-package avy :ensure t)
+      (define-key evil-insert-state-map (kbd "C-.") 'avy-goto-word-1)
+      (define-key evil-normal-state-map (kbd "C-.") 'avy-goto-word-1)
+      (define-key evil-visual-state-map (kbd "C-.") 'avy-goto-word-1)
+      (define-key evil-motion-state-map (kbd "C-.") 'avy-goto-word-1)
+      (bind-key "C-." 'avy-goto-word-1)
       (evil-mode 1))
 
 #+END_SRC
@@ -142,15 +141,12 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 #+END_SRC
 
-* Elscreen
-** Installation
+* Eyebrowse
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package elscreen
-  ;;     :ensure t)
-  ;; (elscreen-start)
-  ;; (elscreen-set-prefix-key "\C-l")
-  ;; (setq elscreen-display-tab nil)
-  ;; (global-set-key (kbd "C-l C-l") 'elscreen-swap)
+  (use-package eyebrowse
+      :ensure t
+      :config (eyebrowse-mode))
+  (eyebrowse-setup-evil-keys)
 #+END_SRC
 
 * Window Manager
@@ -684,11 +680,10 @@ and improves your life tremendously.
 
 I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= is moving by searching characters.
 #+BEGIN_SRC emacs-lisp
-  (use-package ace-jump-mode
+  (use-package avy
       :ensure t
       :bind
-          ("C-." . ace-jump-mode))
-()
+          ("C-." . avy-goto-word-1))
 #+END_SRC
 
 ** transpose frames

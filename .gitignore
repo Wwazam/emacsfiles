@@ -3,4 +3,5 @@
 # but
 !init.el
 !config.org
+!elfeed.org
 !.gitignore
