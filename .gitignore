@@ -1,0 +1,6 @@
+# everything
+*
+# but
+!init.el
+!config.org
+!.gitignore
