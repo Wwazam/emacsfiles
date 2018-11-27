@@ -1,3 +1,4 @@
+
 #+STARTUP: overview
 #+TITLE: Uncle Dave's Emacs
 #+CREATOR: Dawid 'daedreth' Eckert
@@ -5,90 +6,6 @@
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
   
-* Installation
-** Quick Installation
-=git clone https://github.com/daedreth/UncleDavesEmacs ~/.emacs.d=
-
-Keep in mind that you should remove your own ~/.emacs and your ~/.emacs.d
-prior to cloning this configuration. The next time you launch Emacs (and I recommend
-launching emacs in the tty for the first time) it's going to download a good amount
-of packages and configure them for you, you might see warnings and errors being
-displayed as well, those are safe to ignore as long as you relaunch emacs and
-see none.
-
-The configuration, much like emacs is self documented, I highly recommend reading
-through my ramblings in their entirety.
-
-** Less Quick Installation
-You are free to pick out bits and pieces of this and apply them.
-So long as you have a working =use-package= configuration (take a peek at my init.el),
-there should be absolutely no issues.
-I highly encourage you to read up on the prose around the packages you are interested in,
-I do my absolute best to describe the configuration as well as I only can, this might help you on your emacs journey!
-Have some fun with it, add your own keybindings, change parameters, it's your editor in the end.
-
-* Dependencies for:
-** EXWM
-Since we are going to use emacs as our window manager, it would be nice to have some external software to make our life easier.
-*** From the package manager:
-- =xorg-server=, for obvious reasons. (there is no wayland support as of now)
-- =pulsemixer=, available from =https://github.com/GeorgeFilipkin/pulsemixer=.
-- =imagemagick=, if you are going to be using emacs to take screenshots.
-- =ibus-daemon=, if you need multiple keyboard input options (emacs handles them well on its own but ibus is nice).
-- =terminus-font=, for it to work out of the box, if you don't want terminus you need to edit your =init.el=.
-
-**** Optional
-- A browser (sadly, the built in xwidgets-webkit thingie is unreliable).
-- A composite manager (highly recommended, I personally use =compton=, the built in one does not work as intended.).
-- =noto-cjk=, for all the fonts imaginable.
-- =slock=, if you would like to lock the screen.
-
-** TRAMP
-*** From the package manager:
-- =sudo=, properly configured for your user.
-
-** EMMS
-*** From the package manager:
-- =mpd=, since we are going to be using EMMS for music playback, I recommend setting up a working mpd server.
-- =mpv=, for video playback.
-
-** Programming
-*** Package manager
-- =clang=, for c/c++ completion.
-- =sbcl=, for clisp completion and repl.
-- =virtualenv=, for python completion.
-- =lua=, for obvious reasons.
-
-*** pip
-- =pip install jedi flake8 autopep8=, here, a one line install.
-
-* Some notes
-** On use-package some more
-We utilize use-package to handle downloading and configuring other packages painlessly.
-With =init.el= written the way it is, emacs checks for the presence of =use-package=
-on launch and downloads it and installs if necessary.
-=el-Get= is too old and not configurable enough.
-
-** On the format of the configuration
-As you may have noticed, as you scroll down my bit of prose, this is the configuration file itself.
-This configuration is written in =org-mode=, which is a great emacs package and a great markup language.
-On launch, this file is being sourced into =~/.emacs.d/init.el=, the prose is being automatically
-stripped (as to not affect performance) and the remaining =config.el= file is parsed.
-
-This is also the reason why your org-mode configuration file is never called =init.org=.
-
-** On the use case of this configuration
-This entire config is meant to be used as a full on desktop environment, it is tailored to sit on top of xorg and be awesome.
-It is perfectly possible to use it without exwm and emms, as a regular emacs config, just make sure to delete the unwanted sections,
-ex.g EXWM, Audio Control, EMMS and all the launchers.
-There is barely any learning curve to using =exwm=, since it makes x-windows act as regular buffers as much as possible,
-so chances are, as long as you know your way around emacs itself, you will instinctively know how to make use of its features.
-
-** On the keybindings
-I do my best to not pollute keymaps with my own keybindings. Most of the bindings I defined myself utilize the Super key (noted as =s-=).
-This is the least used modifier key together with Shift (noted as =S-=), thus using those, chances are all the bindings you already know
-and love are going to work flawlessly. For all the others, just keep on reading.
-
 * Theme
 The most important part of every configuration.
 ** A nice theme
@@ -99,24 +16,27 @@ My new favourite one I guess, really decent default values.
     :init
     (load-theme 'zenburn t))
 #+END_SRC
+
 ** Disable bold globally
 Bold font sucks and move everything around
 #+BEGIN_SRC emacs-lisp
 (set-face-bold-p 'bold nil)
 #+END_SRC
+
 ** Font
 #+BEGIN_SRC emacs-lisp
 (set-face-font 'default "-Bits-Bitstream vera Sans Mono-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
 #+END_SRC
+
 * Basic Interface Settings
 These are setting that do not depend on packages and are built-in enhancements to the UI.
-
 ** Looks
 *** Remove lame startup screen
 We use an actual replacement for it, keep reading or head directly to =dashboard=.
 #+BEGIN_SRC emacs-lisp
 (setq inhibit-startup-message t)
 #+END_SRC
+
 *** Disable menus and scrollbars
 If you like using any of those, change =-1= to =1=.
 #+BEGIN_SRC emacs-lisp
@@ -124,11 +44,13 @@ If you like using any of those, change =-1= to =1=.
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
 #+END_SRC
+
 *** Disable bell
 This is annoying, remove this line if you like being visually reminded of events.
 #+BEGIN_SRC emacs-lisp
 (setq ring-bell-function 'ignore)
 #+END_SRC
+
 *** Set UTF-8 encoding
 #+BEGIN_SRC emacs-lisp 
   (setq locale-coding-system 'utf-8)
@@ -137,6 +59,7 @@ This is annoying, remove this line if you like being visually reminded of events
   (set-selection-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
 #+END_SRC
+
 *** Highligh current line
 =hl-line= is awesome! It's not very awesome in the terminal version of emacs though, so we don't use that.
 Besides, it's only used for programming.
@@ -218,20 +141,20 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
 (global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 #+END_SRC
+
 * Elscreen
 ** Installation
 #+BEGIN_SRC emacs-lisp
-(use-package elscreen
-    :ensure t)
-(elscreen-start)
-(elscreen-set-prefix-key "\C-l")
-(setq elscreen-display-tab nil)
-(global-set-key (kbd "C-l C-l") 'elscreen-swap)
+  ;; (use-package elscreen
+  ;;     :ensure t)
+  ;; (elscreen-start)
+  ;; (elscreen-set-prefix-key "\C-l")
+  ;; (setq elscreen-display-tab nil)
+  ;; (global-set-key (kbd "C-l C-l") 'elscreen-swap)
 #+END_SRC
 
 * Window Manager
 Everything regarding the WM or DE-like functionality is bundled here, remove the entire section if you do not wish to use =exwm=.
-
 ** exwm
 The only time I actually had to use comments, this is for ease of removal if you happen to not like exwm.
 *** Installation
@@ -325,7 +248,6 @@ The only time I actually had to use comments, this is for ease of removal if you
 Since I do not use a GUI launcher and do not have an external one like dmenu or rofi,
 I figured the best way to launch my most used applications would be direct emacsy
 keybindings.
-
 *** dmenu for emacs
 Who would've thought this was available, together with ido-vertical it's a nice large menu
 with its own cache for most launched applications.
@@ -372,7 +294,6 @@ These can be modified as well, suit yourself.
 
 ** Audio controls
 This is a set of bindings to my XF86 keys that invokes pulsemixer with the correct parameters
-
 *** Volume modifier
 It goes without saying that you are free to modify the modifier as you see fit, 4 is good enough for me though.
 #+BEGIN_SRC emacs-lisp
@@ -447,7 +368,6 @@ I use qutebrowser, so that's what I'll set up.
 * Projectile
 Projectile is an awesome project manager, mostly because it recognizes directories
 with a =.git= directory as projects and helps you manage them accordingly.
-
 ** Enable projectile globally
 This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
@@ -522,7 +442,6 @@ We are not going to have =relative-linum-mode= in every major mode, so this is u
 
 ** Clock
 If you prefer the 12hr-format, change the variable to =nil= instead of =t=.
-
 *** Time format
 #+BEGIN_SRC emacs-lisp
   (setq display-time-24hr-format t)
@@ -589,7 +508,6 @@ As a great emacs user once said:
 #+BEGIN_QUOTE
 Do me the favor, do me the biggest favor, matter of fact do yourself the biggest favor and integrate those into your workflow.
 #+END_QUOTE
-
 ** a prerequisite for others packages
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
@@ -621,7 +539,6 @@ It's beautiful
 Some of us have large displays, others have tiny netbook screens, but regardless of your hardware
 you probably use more than 2 panes/windows at times, cycling through all of them with
 =C-c o= is annoying to say the least, it's a lot of keystrokes and takes time, time you could spend doing something more productive.
-
 *** switch-window
 This magnificent package takes care of this issue.
 It's unnoticeable if you have <3 panes open, but with 3 or more, upon pressing =C-x o=
@@ -675,7 +592,6 @@ I like me some searching, the default search is very meh. In emacs, you mostly u
 ** buffers and why I hate list-buffers
 Another big thing is, buffers. If you use emacs, you use buffers, everyone loves them.
 Having many buffers is useful, but can be tedious to work with, let us see how we can improve it.
-
 *** Always murder current buffer
 Doing =C-x k= should kill the current buffer at all times, we have =ibuffer= for more sophisticated thing.
 #+BEGIN_SRC emacs-lisp
@@ -784,7 +700,6 @@ I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= 
 #+END_SRC
 * The terminal
 I have used urxvt for years, and I miss it sometimes, but ansi-term is enough for most of my tasks.
-
 ** Default shell should be bash
 I don't know why this is a thing, but asking me what shell to launch every single
 time I open a terminal makes me want to slap babies, this gets rid of it.
@@ -804,7 +719,6 @@ In loving memory of bspwm, Super + Enter opens a new terminal, old habits die ha
 
 * Text manipulation
 Here I shall collect self-made functions that make editing text easier.
-
 ** Mark-Multiple
 I can barely contain my joy. This extension allows you to quickly mark the next occurence of a region and edit them all at once. Wow!
 #+BEGIN_SRC emacs-lisp
@@ -864,11 +778,12 @@ And this quickly deletes a line.
 Emacs is at it's best when it just does things for you, shows you the way, guides you so to speak.
 This can be best achieved using a number of small extensions. While on their own they might not be particularly
 impressive. Together they create a nice environment for you to work in.
-
 ** Visiting files
 #+BEGIN_SRC emacs-lisp
 (define-key global-map (kbd "C-c f c")
   (lambda () (interactive)(find-file "~/.emacs.d/config.org")))
+(define-key global-map (kbd "C-c f e")
+  (lambda () (interactive)(find-file "~/.emacs.d/elfeed.org")))
 (define-key global-map (kbd "C-c f f")
   (lambda () (interactive)(find-file "~/documents/notes/files.org")))
 (define-key global-map (kbd "C-c f h")
@@ -1015,18 +930,26 @@ C-n and C-p totally work for this.
 
 * Programming
 Minor, non-completion related settings and plugins for writing code.
-
 ** yasnippet
 #+BEGIN_SRC emacs-lisp
-    (use-package yasnippet
-      :ensure t
-      :config
-        (use-package yasnippet-snippets
-          :ensure t)
-        (yas-reload-all))
-    (define-key yas-minor-mode-map (kbd "<C-SPC>") 'yas-expand)
+  (use-package yasnippet-snippets :ensure t)
+  (use-package yasnippet
+    :diminish yas-minor-mode
+    :ensure t
+    :config
+      (setq yas-indent-line 'fixed)
+      (yas-global-mode 1)
+      (yas-reload-all))
+  (define-key yas-minor-mode-map (kbd "<C-SPC>") 'yas-expand)
 #+END_SRC
 
+** auto-yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-yasnippet
+    :ensure t
+    :bind (("C-c ya" . aya-create)
+           ("C-c ye" . aya-expand)))
+#+END_SRC
 ** flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
@@ -1046,17 +969,23 @@ it starts doing its magic after typing in only 2 characters.
 I prefer =C-n= and =C-p= to move around the items, so I remap those accordingly.
 #+BEGIN_SRC emacs-lisp
   (use-package company
+      :ensure t
+      :diminish company-mode
+      :config
+      (setq company-idle-delay 0)
+      (setq company-minimum-prefix-length 3)
+      :bind (:map company-active-map
+          ("M-n" . nil)
+          ("M-p" . nil)
+          ("C-n" . company-select-next)
+          ("C-p" . company-select-previous)
+          ("SPC" . company-abort)))
+
+  (use-package company-quickhelp
     :ensure t
     :config
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3))
-
-  (with-eval-after-load 'company
-    (define-key company-active-map (kbd "M-n") nil)
-    (define-key company-active-map (kbd "M-p") nil)
-    (define-key company-active-map (kbd "C-n") #'company-select-next)
-    (define-key company-active-map (kbd "C-p") #'company-select-previous)
-    (define-key company-active-map (kbd "SPC") #'company-abort))
+    (company-quickhelp-mode 1)
+    (setq company-quickhelp-delay nil))
 #+END_SRC
 
 ** specific languages
@@ -1065,7 +994,6 @@ After messing around with =auto-completion= for a while I decided to drop it
 in favor of =company=, and it turns out to have been a great decision.
 
 Each category also has additional settings.
-
 *** c/c++
 **** yasnippet
 #+BEGIN_SRC emacs-lisp
@@ -1118,6 +1046,7 @@ Requires libclang to be installed.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'python-mode-hook 'flycheck-mode)
 #+END_SRC
+
 **** company
 #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
@@ -1627,9 +1556,24 @@ set key
 Elscreen for RSS feed
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
-    :ensure t
-    :bind
-        ("C-x w" . 'elfeed))
+      :ensure t
+      :bind
+          ("C-x w" . 'elfeed)
+          (:map elfeed-search-mode-map
+          ("j" . next-line)
+          ("k" . previous-line)
+          ("v" . elfeed-search-mpv)
+          :map elfeed-show-mode-map
+          ("j" . scroll-up-line)
+          ("k" . scroll-down-line)))
+
+  (use-package elfeed-org
+      :ensure t
+      :config
+  (setq rmh-eleed-org-files (list "~/.emacs.d/elfeed.org")))
+  (elfeed-org)
+
+  (add-to-list 'evil-emacs-state-modes 'elfeed-search-mode)
 #+END_SRC
 ** Neotree
 #+BEGIN_SRC emacs-lisp
@@ -1644,3 +1588,4 @@ This keybinding got removed for some reasons
 #+BEGIN_SRC emacs-lisp
 ;(global-set-key (kbd "C-SPC") 'execute-extended-command)
 #+END_SRC
+
