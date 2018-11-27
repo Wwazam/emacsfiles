@@ -4,8 +4,7 @@
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
-
-
+  
 * Installation
 ** Quick Installation
 =git clone https://github.com/daedreth/UncleDavesEmacs ~/.emacs.d=
@@ -198,22 +197,10 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-unset-key (kbd "C-."))
 #+END_SRC
 
-** Evil Leader
+** Keybindings
+*** remove highlights
 #+BEGIN_SRC emacs-lisp
-;(use-package evil-leader
-;    :ensure t)
-;(evil-leader/set-leader "<SPC>")
-;(global-evil-leader-mode)
-;(evil-leader/set-key
-;"a" 'org-agenda
-;"b" 'helm-buffers-list
-;"f" 'helm-find-files
-;"k" 'kill-current-buffer
-;"o" 'evil-org-open-link
-;"t" 'org-show-todo-tree
-;"-" 'text-scale-decrease
-;"+" 'text-scale-increase
-;"." 'avy-goto-word-1)
+(global-set-key (kbd "C-x /") 'evil-ex-nohighlight)
 #+END_SRC
 
 ** Evil Numbers
@@ -701,14 +688,9 @@ Unless you have the muscle memory, I recommend omitting this bit, as you may los
 I don't understand how ibuffer isn't the default option by now.
 It's vastly superior in terms of ergonomics and functionality, you can delete buffers, rename buffer, move buffers, organize buffers etc.
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-x b") 'ibuffer)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
 #+END_SRC
 
-**** expert-mode
-If you feel like you know how ibuffer works and need not to be asked for confirmation after every serious command, enable this as follows.
-#+BEGIN_SRC emacs-lisp
-(setq ibuffer-expert t)
-#+END_SRC
 *** close-all-buffers
 It's one of those things where I genuinely have to wonder why there is no built in functionality for it.
 Once in a blue moon I need to kill all buffers, and having ~150 of them open would mean I'd need to spend a few too many
@@ -886,6 +868,8 @@ impressive. Together they create a nice environment for you to work in.
   (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
 (define-key global-map (kbd "C-c f j")
   (lambda () (interactive)(find-file "~/documents/notes/diary.org")))
+(define-key global-map (kbd "C-c f s")
+  (lambda () (interactive)(switch-to-buffer "*scratch*")))
 (define-key global-map (kbd "C-c f t")
   (lambda () (interactive)(find-file "~/documents/notes/todo.org")))
 #+END_SRC
@@ -1474,6 +1458,22 @@ automatically add clock items in a drawer
 #+BEGIN_SRC emacs-lisp
   (setq org-clock-into-drawer t)
 #+END_SRC
+* LaTeX
+** Initialize
+#+BEGIN_SRC emacs-lisp
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+
+#+END_SRC
+** Run all
+#+BEGIN_SRC emacs-lisp
+  ;; (define-key LaTeX-mode-map (kbd "C-c C-a")
+  ;;   (lambda ()
+  ;;     "Save the buffer and run `TeX-command-run-all`."
+  ;;     (interactive)
+  ;;     (save-buffer)
+  ;;     (TeX-command-run-all nil)))
+#+END_SRC
 
 #+RESULTS:
 : t
@@ -1492,7 +1492,6 @@ You might want to edit the default nick, it's password protected anyway so don't
 This also hides some of the channel messages to avoid cluttering the buffer.
 The other line changes the prompt for each channel buffer to match the channel name,
 this way you always know who you are typing to.
->>>>>>> d58f3eaff9723e802409b1f71dd25daf170e59b3
 #+BEGIN_SRC emacs-lisp
 (define-key global-map (kbd "C-c a") 'org-agenda)
 (setq org-agenda-custom-commands
@@ -1514,11 +1513,12 @@ this way you always know who you are typing to.
 #+END_SRC
 ** org-babel
 #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-  'org-babel-load-languages
-  '((python . t)
-(sql . t)
-     (emacs-lisp . nil)))
+(org-babel-do-load-languages
+    'org-babel-load-languages
+        '(
+        (python . t)
+        (sql . t)
+        (emacs-lisp . nil)))
 #+END_SRC
 ** macros
 *** keep recording even when changing buffers
@@ -1633,5 +1633,5 @@ Elscreen for RSS feed
 ** M-x
 This keybinding got removed for some reasons
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-SPC") 'execute-extended-command)
+;(global-set-key (kbd "C-SPC") 'execute-extended-command)
 #+END_SRC
