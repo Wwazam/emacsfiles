@@ -173,9 +173,17 @@ Lets us use asynchronous processes wherever possible, pretty useful.
           evil-want-C-w-in-emacs-state t)
 
   (use-package evil
-    :ensure t)
+    :ensure t
+    :bind ("C-." . nil)
+    :config
+      (use-package ace-jump-mode :ensure t)
+      (define-key evil-insert-state-map (kbd "C-.") 'ace-jump-mode)
+      (define-key evil-normal-state-map (kbd "C-.") 'ace-jump-mode)
+      (define-key evil-visual-state-map (kbd "C-.") 'ace-jump-mode)
+      (define-key evil-motion-state-map (kbd "C-.") 'ace-jump-mode)
+      (bind-key "C-." 'ace-jump-mode)
+      (evil-mode 1))
 
-  (evil-mode t)
 #+END_SRC
 
 ** jk to go  Back to normal mode
@@ -193,8 +201,8 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 
 ** Remove C-. keybinding
 #+BEGIN_SRC emacs-lisp
-(define-key global-map (kbd "C-." ) nil)
-(global-unset-key (kbd "C-."))
+  (define-key global-map (kbd "C-." ) nil)
+  (global-unset-key (kbd "C-."))
 #+END_SRC
 
 ** Keybindings
@@ -760,10 +768,11 @@ and improves your life tremendously.
 
 I like =M-s= for it, same as =C-s= is for moving by searching string, now =M-s= is moving by searching characters.
 #+BEGIN_SRC emacs-lisp
-  (use-package avy
+  (use-package ace-jump-mode
       :ensure t
       :bind
-          ("C-." . 'avy-goto-word-1))
+          ("C-." . ace-jump-mode))
+()
 #+END_SRC
 
 ** transpose frames
