@@ -53,34 +53,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
-<<<<<<< HEAD
- '(org-agenda-files
-   (quote
-    ("~/documents/cours/cpe/5a/english/cours.org" "~/documents/notes/todo.org")))
- '(org-journal-dir "~/documents/notes/journal/")
+ '(elfeed-db-directory "~/.emacs.d/.elfeed")
+ '(flycheck-display-errors-delay 0.3)
+ '(flycheck-stylelintrc "~/.stylelintrc.json")
  '(package-selected-packages
    (quote
-    (neotree lorem-ipsum js2-mode evil-number evil-numbers evil-opener org-journal origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
-=======
- '(initial-scratch-message "")
- '(org-agenda-files
-   (quote
-    ("~/documents/workspace/sx/project.org" "~/documents/notes/todo.org")))
- '(org-journal-dir "~/documents/notes/journal")
- '(org-table-convert-region-max-lines 9999)
- '(package-selected-packages
-   (quote
-    (format-all fortune-cookie frameshot format-sql auto-virtualenv virtualenv auctex auto-complete-auctex org-journal transpose-frame evil-matchit jedi elpy flycheck-tip flymake-python-pyflakes flycheck-pyflakes org-numbers org-number yasnippet-classic-snippets org-reveal org-tree-slide epresent org-wc org-caldav evil-numbers csv-mode bbdb-csv-import csv elfeed hs-mode origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
->>>>>>> 627a371aea1e91aa0326ad409d769ec7cca179af
- '(pos-tip-background-color "#36473A")
- '(pos-tip-foreground-color "#FFFFC8"))
+    (zzz-to-char zenburn-theme yasnippet-snippets which-key virtualenv use-package transpose-frame symon switch-window swiper sudo-edit spaceline slime-company rainbow-mode rainbow-delimiters projectile popup-kill-ring ox-twbs org-journal org-evil org-bullets neotree mark-multiple magit key-chord hungry-delete htmlize helm frameshot fortune-cookie format-sql format-all flycheck-clang-analyzer fancy-battery eyebrowse expand-region evil-org evil-numbers evil-leader emms elscreen dmenu dashboard company-shell company-quickhelp company-lua company-jedi company-irony company-c-headers beacon auto-yasnippet auto-virtualenv auctex))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#3F3F3F" :foreground "#DCDCCC" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "Bits" :family "Bitstream Vera Sans Mono"))))
- '(fringe ((t (:background "#292b2e")))))
+ )
 (put 'narrow-to-region 'disabled nil)
