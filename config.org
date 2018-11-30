@@ -6,20 +6,12 @@
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
   
 * Theme
-The most important part of every configuration.
 ** A nice theme
-My new favourite one I guess, really decent default values.
 #+BEGIN_SRC emacs-lisp
 (use-package zenburn-theme
     :ensure t
-    :init
+    :config
     (load-theme 'zenburn t))
-#+END_SRC
-
-** Disable bold globally
-Bold font sucks and move everything around
-#+BEGIN_SRC emacs-lisp
-(set-face-bold-p 'bold nil)
 #+END_SRC
 
 ** Font
