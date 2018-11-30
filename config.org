@@ -1211,9 +1211,9 @@ Here is how we add more of them!
 ** TO DO keywords
 #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords 
-    '((sequence "NOW(n)" "TODO(t)" "CHECK(c)" "LATER(l)" "|" "DONE(d)" )
-    (sequence "BUG(b)" "ISSUE(i)" "|" "FIXED(f)")
-    (sequence "|" "CANCELED(a)")
+    '((sequence "NOW(n)" "TODO(t)" "CHECK(c@)" "LATER(l)" "|" "DONE(d!)" )
+    (sequence "BUG(b@)" "ISSUE(i@)" "|" "FIXED(f!)")
+    (sequence "|" "CANCELED(a@)")
     ))
 
   (setq org-todo-keyword-faces
@@ -1232,7 +1232,7 @@ Here is how we add more of them!
 
 ** Closed timestamp
 #+BEGIN_SRC emacs-lisp
-(setq org-log-done 'time)
+;(setq org-log-done 'time)
 #+END_SRC
 ** Capture
 *** Installation
@@ -1570,4 +1570,8 @@ This keybinding got removed for some reasons
 #+BEGIN_SRC emacs-lisp
 ;(global-set-key (kbd "C-SPC") 'execute-extended-command)
 #+END_SRC
-
+** C-h h
+AAAAAAAAH, begone, you useless and oh so cumbersome function!
+#+BEGIN_SRC emacs-lisp
+(global-unset-key (kbd "C-h h"))
+#+END_SRC
