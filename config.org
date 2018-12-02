@@ -1191,7 +1191,7 @@ Makes it all look a bit nicer, I hate looking at asterisks.
 
   ;(setq org-ellipsis " ▼")
 (set-display-table-slot standard-display-table 
-                        'selective-display (string-to-vector " ▼")) ; or whatever you like
+                        'selective-display (string-to-vector " …")) ; or whatever you like
 #+END_SRC
 
 ** Easy-to-add emacs-lisp template
