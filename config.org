@@ -394,20 +394,20 @@ change the numbers to suit your liking, I find 5 to be enough.
 * Modeline
 ** SML
 #+BEGIN_SRC emacs-lisp
-  (use-package smart-mode-line
-      :ensure t
-      :config
-          (sml/setup)
-          (setq sml/theme 'respectful
-              sml/mode-width 'full
-              sml/name-width '(0 . 20)
-              sml/replacer-regexp-list
-              '(
-                  ("^~/org/" ":O:")
-                  ("^~/\\.emacs\\.d/" ":ED:")
-                  ("^~/documents/notes/" ":N:")))
-              (display-battery-mode)
-              (display-time))
+    (use-package smart-mode-line
+        :ensure t
+        :config
+            (sml/setup)
+            (setq sml/theme 'respectful
+                sml/mode-width 'full
+                sml/name-width '(0 . 20)
+                sml/replacer-regexp-list
+                '(
+                    ("^~/org/" ":O:")
+                    ("^~/\\.emacs\\.d/" ":ED:")
+                    ("^~/documents/notes/" ":N:")))
+          (display-battery-mode 0)
+  )
         
 #+END_SRC
 
@@ -996,21 +996,23 @@ Requires libclang to be installed.
       (add-hook 'python-mode-hook 'company-mode))
 
   (use-package company-jedi
-    :ensure t
-    :config
-      (require 'company)
-      (add-to-list 'company-backends 'company-jedi))
+      :ensure t
+      :config
+          (require 'company)
+          (add-to-list 'company-backends 'company-jedi))
+          (add-hook 'python-mode-hook 'jedi:setup)
+          (setq jedi:complete-on-dot t)   
 
   (defun python-mode-company-init ()
-    (setq-local company-backends '((company-jedi
-                                    company-etags
-                                    company-dabbrev-code))))
+  (setq-local company-backends '((company-jedi
+                                  company-etags
+                                  company-dabbrev-code))))
 
   (use-package company-jedi
-    :ensure t
-    :config
-      (require 'company)
-      (add-hook 'python-mode-hook 'python-mode-company-init))
+      :ensure t
+      :config
+          (require 'company)
+          (add-hook 'python-mode-hook 'python-mode-company-init))
 #+END_SRC
 **** hs-minor mode
 folding mode 
@@ -1121,7 +1123,14 @@ great. It's easy and intuitive to use, shows its options at a keypress and much 
     :bind
     ("C-x g" . magit-status))
 #+END_SRC
-
+** git gutter
+#+BEGIN_SRC emacs-lisp
+  (use-package git-gutter
+      :ensure t
+      :config
+          (global-git-gutter-mode +1)
+  )
+#+END_SRC
 * Remote editing
 ** Editing with sudo
 Pretty self-explanatory, useful as hell if you use exwm.
@@ -1391,12 +1400,17 @@ this way you always know who you are typing to.
 #+END_SRC
 ** org-babel
 #+BEGIN_SRC emacs-lisp
-(org-babel-do-load-languages
-    'org-babel-load-languages
-        '(
-        (python . t)
-        (sql . t)
-        (emacs-lisp . nil)))
+  (org-babel-do-load-languages
+      'org-babel-load-languages
+          '(
+          (python . t)
+          (sql . t)
+          (emacs-lisp . t)
+          (plantuml . t)))
+#+END_SRC
+#+BEGIN_SRC plantuml
+Bob:alice->oui
+
 #+END_SRC
 ** macros
 *** keep recording even when changing buffers
