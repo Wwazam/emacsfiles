@@ -406,8 +406,7 @@ change the numbers to suit your liking, I find 5 to be enough.
                   ("^~/org/" ":O:")
                   ("^~/\\.emacs\\.d/" ":ED:")
                   ("^~/documents/notes/" ":N:")))
-              (display-battery-mode)
-              (display-time))
+)
         
 #+END_SRC
 
