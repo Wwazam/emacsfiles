@@ -1267,6 +1267,10 @@ Here is how we add more of them!
    ((org-at-item-p) (org-insert-item))))
 #+END_SRC
 
+** Link
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c l") 'org-store-link)
+#+END_SRC
 ** Scrivener mode
 C-c h to open plan in left pane
 
