@@ -726,6 +726,8 @@ This can be best achieved using a number of small extensions. While on their own
 impressive. Together they create a nice environment for you to work in.
 ** Visiting files
 #+BEGIN_SRC emacs-lisp
+(define-key global-map (kbd "C-c f a")
+  (lambda () (interactive)(find-file "~/documents/notes/agenda.org")))
 (define-key global-map (kbd "C-c f c")
   (lambda () (interactive)(find-file "~/.emacs.d/config.org")))
 (define-key global-map (kbd "C-c f e")
@@ -1211,7 +1213,11 @@ Here is how we add more of them!
   (use-package ox-twbs
     :ensure t)
 #+END_SRC
-
+*** Plantum
+#+BEGIN_SRC emacs-lisp
+(setq org-plantuml-jar-path
+      (expand-file-name "~/.emacs.d/src/plantuml.jar"))
+#+END_SRC
 ** TO DO keywords
 #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords 
@@ -1232,8 +1238,8 @@ Here is how we add more of them!
         ("FIXED" .(:foreground "#9fc59f"))
         ("CANCELED" .(:foreground "#7f9f7f"))
     ))
-#+END_SRC
 
+#+END_SRC
 ** Closed timestamp
 #+BEGIN_SRC emacs-lisp
 ;(setq org-log-done 'time)
@@ -1246,15 +1252,17 @@ Here is how we add more of them!
 
 *** Default Files
 #+BEGIN_SRC emacs-lisp
-(setq org-ddefaults-notes-file "~/documents/notes/notes.org")
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/documents/notes/todo.org" "Tasks")
-             "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+datetree "~/documents/notes/diary.org")
-	 "* %?\nEntered on %U\n  %i\n  %a")
-	("f" "Files" entry (file+headline "~/documents/notes/files.org" "Files")
-	"* %?\n[[file:%F][%F]]")
-	))
+  (setq org-ddefaults-notes-file "~/documents/notes/notes.org")
+  (setq org-capture-templates
+        '(("t" "Todo" entry (file+headline "~/documents/notes/todo.org" "Tasks")
+               "* TODO %?\n  %i\n  %a")
+          ("j" "Journal" entry (file+datetree "~/documents/notes/diary.org")
+           "* %?\nEntered on %U\n  %i\n")
+          ("f" "Files" entry (file+headline "~/documents/notes/files.org" "Files")
+          "* %?\n[[file:%F][%F]]")
+          ("a" "Agenda" entry (file "~/documents/notes/agenda.org")
+           "* %?\nEntered on %U\n  %i\n")
+          ))
 #+END_SRC
 
 ** Betterhandeling of 'O'
@@ -1417,86 +1425,6 @@ https://github.com/emacs-evil/evil/issues/847
 #+BEGIN_SRC emacs-lisp
 (defun evil-abort-macro ())
 #+END_SRC
-* Media
-Why bother with an external media manager when emacs is a thing.
-EMMS is huge, incredibly powerful and luckily well documented.
-All I need it for is to play music and video, that's it.
-I also need it to display metadata on the modeline correctly, which it does with mpd automatically.
-
-** EMMS with mpd
-There is many backends, many players and codecs for EMMS, we use mpd now.
-
-*** Basic setup for mpd
-The non XF86 keys are made to be somewhat logical to follow and easy to remember.
-At the bottom part of the configuration, you will notice how XF86 keys are used
-by default, so unless you keyboard is broken it should work out of the box.
-Obviously you might have to adjust /server-name/ and /server-port/ to fit your configuration.
-#+BEGIN_SRC emacs-lisp
-  (use-package emms
-    :ensure t
-    :config
-      (require 'emms-setup)
-      (require 'emms-player-mpd)
-      (emms-all) ; don't change this to values you see on stackoverflow questions if you expect emms to work
-      (setq emms-seek-seconds 5)
-      (setq emms-player-list '(emms-player-mpd))
-      (setq emms-info-functions '(emms-info-mpd))
-      (setq emms-player-mpd-server-name "localhost")
-      (setq emms-player-mpd-server-port "6601")
-    :bind
-      ("s-m p" . emms)
-      ("s-m b" . emms-smart-browse)
-      ("s-m r" . emms-player-mpd-update-all-reset-cache)
-      ("<XF86AudioPrev>" . emms-previous)
-      ("<XF86AudioNext>" . emms-next)
-      ("<XF86AudioPlay>" . emms-pause)
-      ("<XF86AudioStop>" . emms-stop))
-#+END_SRC
-
-*** MPC Setup
-**** Setting the default port
-We use non-default settings for the socket, to use the built in =mpc= functionality we need to set up a variable.
-Adjust according to your setup.
-#+BEGIN_SRC emacs-lisp
-  (setq mpc-host "localhost:6601")
-#+END_SRC
-
-*** Some more fun stuff
-**** Starting the daemon from within emacs
-If you have an absolutely massive music library, it might be a good idea to get rid of =mpc-update=
-and only invoke it manually when needed.
-#+BEGIN_SRC emacs-lisp
-  (defun mpd/start-music-daemon ()
-    "Start MPD, connects to it and syncs the metadata cache."
-    (interactive)
-    (shell-command "mpd")
-    (mpd/update-database)
-    (emms-player-mpd-connect)
-    (emms-cache-set-from-mpd-all)
-    (message "MPD Started!"))
-  (global-set-key (kbd "s-m c") 'mpd/start-music-daemon)
-#+END_SRC
-
-**** Killing the daemon from within emacs
-#+BEGIN_SRC emacs-lisp
-  (defun mpd/kill-music-daemon ()
-    "Stops playback and kill the music daemon."
-    (interactive)
-    (emms-stop)
-    (call-process "killall" nil nil nil "mpd")
-    (message "MPD Killed!"))
-  (global-set-key (kbd "s-m k") 'mpd/kill-music-daemon)
-#+END_SRC
-**** Updating the database easily.
-#+BEGIN_SRC emacs-lisp
-  (defun mpd/update-database ()
-    "Updates the MPD database synchronously."
-    (interactive)
-    (call-process "mpc" nil nil nil "update")
-    (message "MPD Database Updated!"))
-  (global-set-key (kbd "s-m u") 'mpd/update-database)
-#+END_SRC
-
 * Tools
 ** Calculator
 set key
