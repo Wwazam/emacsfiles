@@ -133,6 +133,10 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 (global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 #+END_SRC
 
+** Marks
+#+BEGIN_SRC emacs-lisp
+  (define-key evil-normal-state-local-map (kbd "'") 'evil-goto-mark)
+#+END_SRC
 * Eyebrowse
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse
