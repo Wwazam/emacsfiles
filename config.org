@@ -1252,7 +1252,7 @@ Here is how we add more of them!
 
 *** Default Files
 #+BEGIN_SRC emacs-lisp
-  (setq org-ddefaults-notes-file "~/documents/notes/notes.org")
+  (setq org-defaults-notes-file "~/documents/notes/notes.org")
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/documents/notes/todo.org" "Tasks")
                "* TODO %?\n  %i\n  %a")
@@ -1320,11 +1320,6 @@ C-c h to open plan in left pane
     :ensure t) 
 (add-hook 'org-mode-hook (lambda ()(evil-org-mode 1)))
 #+END_SRC
-** org-agenda
-#+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c a") 'org-agenda)
-#+END_SRC
-
 ** org-journal
 #+BEGIN_SRC emacs-lisp
   (use-package org-journal
@@ -1351,6 +1346,36 @@ org indent symbol in clock reports is bugged (some latex problem, idk, idc) and 
 automatically add clock items in a drawer
 #+BEGIN_SRC emacs-lisp
   (setq org-clock-into-drawer t)
+#+END_SRC
+** org-agenda
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-agenda-custom-commands
+      '(("h" "Daily habits" 
+         ((agenda ""))
+         ((org-agenda-show-log t)
+          (org-agenda-ndays 7)
+          (org-agenda-log-mode-items '(state))
+          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+        ;; other commands here
+        ))
+#+END_SRC
+** org-number
+#+BEGIN_SRC emacs-lisp
+(use-package evil-numbers
+    :ensure t) 
+(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
+#+END_SRC
+** org-babel
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+      'org-babel-load-languages
+          '(
+          (python . t)
+          (sql . t)
+          (emacs-lisp . t)
+          (plantuml . t)))
 #+END_SRC
 * LaTeX
 ** Initialize
@@ -1382,49 +1407,6 @@ that more sophisticated ones don't, so I use it.
 ** erc, also known as "a way to ask for help on #emacs"
 You might want to edit the default nick, it's password protected anyway so don't bother.
 
-*** Some common settings
-This also hides some of the channel messages to avoid cluttering the buffer.
-The other line changes the prompt for each channel buffer to match the channel name,
-this way you always know who you are typing to.
-#+BEGIN_SRC emacs-lisp
-(define-key global-map (kbd "C-c a") 'org-agenda)
-(setq org-agenda-custom-commands
-      '(("h" "Daily habits" 
-         ((agenda ""))
-         ((org-agenda-show-log t)
-          (org-agenda-ndays 7)
-          (org-agenda-log-mode-items '(state))
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-        ;; other commands here
-        ))
-#+END_SRC
-** org-number
-#+BEGIN_SRC emacs-lisp
-(use-package evil-numbers
-    :ensure t) 
-(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
-(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
-#+END_SRC
-** org-babel
-#+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-      'org-babel-load-languages
-          '(
-          (python . t)
-          (sql . t)
-          (emacs-lisp . t)
-          (plantuml . t)))
-#+END_SRC
-#+BEGIN_SRC plantuml
-Bob:alice->oui
-
-#+END_SRC
-** macros
-*** keep recording even when changing buffers
-https://github.com/emacs-evil/evil/issues/847
-#+BEGIN_SRC emacs-lisp
-(defun evil-abort-macro ())
-#+END_SRC
 * Tools
 ** Calculator
 set key
@@ -1504,6 +1486,16 @@ See `elfeed-play-with-mpv'."
       :ensure t
       :bind ("C-x C-n" . 'neotree-toggle))
   (add-to-list 'evil-emacs-state-modes 'neotree-mode)
+#+END_SRC
+** Images
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'evil-emacs-state-modes 'Image-mode)
+#+END_SRC
+** macros
+*** keep recording even when changing buffers
+https://github.com/emacs-evil/evil/issues/847
+#+BEGIN_SRC emacs-lisp
+(defun evil-abort-macro ())
 #+END_SRC
 * Misc keymapping
 ** M-x
