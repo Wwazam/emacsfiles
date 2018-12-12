@@ -1309,10 +1309,10 @@ automatically add clock items in a drawer
              ((agenda ""))
              ((org-agenda-show-log t)
               (org-agenda-ndays 7)
-              (setq org-agenda-log-mode-items '(closed clock state))
               (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
             ;; other commands here
             ))
+    (setq org-agenda-log-mode-items '(closed clock state))
 #+END_SRC
 ** org-number
 #+BEGIN_SRC emacs-lisp
