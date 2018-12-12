@@ -1,7 +1,10 @@
-# everything
-*
-# but
-!init.el
-!config.org
-!elfeed.org
-!.gitignore
+init.el
+config.el
+elpa/
+[#]*[#]
+*~
+tramp
+recentf
+*.eld
+.python*
+bookmarks
