@@ -4,7 +4,7 @@
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
-  
+
 * Theme
 ** A nice theme
 #+BEGIN_SRC emacs-lisp
@@ -15,12 +15,12 @@
 #+END_SRC
 
 ** Font
-#+BEGIN_SRC emacs-lisp
-(set-face-font 'default "-Bits-Bitstream vera Sans Mono-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+    (set-face-font 'default "-Bits-Bitstream vera Sans Mono-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
+    #+END_SRC
 
 * Basic Interface Settings
-These are setting that do not depend on packages and are built-in enhancements to the UI.
+    These are setting that do not depend on packages and are built-in enhancements to the UI.
 ** Looks
 *** Remove lame startup screen
 We use an actual replacement for it, keep reading or head directly to =dashboard=.
@@ -668,56 +668,11 @@ Here I shall collect self-made functions that make editing text easier.
 ** Mark-Multiple
 I can barely contain my joy. This extension allows you to quickly mark the next occurence of a region and edit them all at once. Wow!
 #+BEGIN_SRC emacs-lisp
-  (use-package mark-multiple
-    :ensure t
-    :bind ("C-c q" . 'mark-next-like-this))
-#+END_SRC
+    (use-package mark-multiple
+      :ensure t
+      :config
+          (define-key evil-visual-state-map (kbd "q") 'mark-next-like-this))
 
-** Improved kill-word
-Why on earth does a function called =kill-word= not .. kill a word.
-It instead deletes characters from your cursors position to the end of the word,
-let's make a quick fix and bind it properly.
-#+BEGIN_SRC emacs-lisp
-  (defun daedreth/kill-inner-word ()
-    "Kills the entire word your cursor is in. Equivalent to 'ciw' in vim."
-    (interactive)
-    (forward-char 1)
-    (backward-word)
-    (kill-word 1))
-  (global-set-key (kbd "C-c w k") 'daedreth/kill-inner-word)
-#+END_SRC
-
-** Improved copy-word
-And again, the same as above but we make sure to not delete the source word.
-#+BEGIN_SRC emacs-lisp
-  (defun daedreth/copy-whole-word ()
-    (interactive)
-    (save-excursion
-      (forward-char 1)
-      (backward-word)
-      (kill-word 1)
-      (yank)))
-  (global-set-key (kbd "C-c w c") 'daedreth/copy-whole-word)
-#+END_SRC
-
-** Copy a line
-Regardless of where your cursor is, this quickly copies a line.
-#+BEGIN_SRC emacs-lisp
-  (defun daedreth/copy-whole-line ()
-    "Copies a line without regard for cursor position."
-    (interactive)
-    (save-excursion
-      (kill-new
-       (buffer-substring
-        (point-at-bol)
-        (point-at-eol)))))
-  (global-set-key (kbd "C-c l c") 'daedreth/copy-whole-line)
-#+END_SRC
-
-** Kill a line
-And this quickly deletes a line.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c l k") 'kill-whole-line)
 #+END_SRC
 
 * Minor conveniences
@@ -725,28 +680,29 @@ Emacs is at it's best when it just does things for you, shows you the way, guide
 This can be best achieved using a number of small extensions. While on their own they might not be particularly
 impressive. Together they create a nice environment for you to work in.
 ** Visiting files
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results none
 (define-key global-map (kbd "C-c f a")
-  (lambda () (interactive)(find-file "~/documents/notes/agenda.org")))
+  (defun my/Agenda () (interactive)(find-file "~/documents/notes/agenda.org")))
 (define-key global-map (kbd "C-c f c")
-  (lambda () (interactive)(find-file "~/.emacs.d/config.org")))
+  (defun my/Config () (interactive)(find-file "~/.emacs.d/config.org")))
 (define-key global-map (kbd "C-c f e")
-  (lambda () (interactive)(find-file "~/.emacs.d/elfeed.org")))
+  (defun my/Elfeed () (interactive)(find-file "~/.emacs.d/elfeed.org")))
 (define-key global-map (kbd "C-c f f")
-  (lambda () (interactive)(find-file "~/documents/notes/files.org")))
+  (defun my/Files () (interactive)(find-file "~/documents/notes/files.org")))
 (define-key global-map (kbd "C-c f h")
-  (lambda () (interactive)(find-file "~/documents/notes/horraires.org")))
+  (defun my/Horraires () (interactive)(find-file "~/documents/notes/horraires.org")))
 (define-key global-map (kbd "C-c f i")
-  (lambda () (interactive)(find-file "~/.emacs.d/init.el")))
+  (defun my/Init () (interactive)(find-file "~/.emacs.d/init.el")))
 (define-key global-map (kbd "C-c f j")
-  (lambda () (interactive)(find-file "~/documents/notes/diary.org")))
+  (defun my/Diary () (interactive)(find-file "~/documents/notes/diary.org")))
 (define-key global-map (kbd "C-c f p")
-  (lambda () (interactive)(find-file "~/documents/notes/project.org")))
+  (defun my/Project () (interactive)(find-file "~/documents/notes/project.org")))
 (define-key global-map (kbd "C-c f s")
-  (lambda () (interactive)(switch-to-buffer "*scratch*")))
+  (defun my/Scratch () (interactive)(switch-to-buffer "*scratch*")))
 (define-key global-map (kbd "C-c f t")
-  (lambda () (interactive)(find-file "~/documents/notes/todo.org")))
+  (defun my/Todo () (interactive)(find-file "~/documents/notes/todo.org")))
 #+END_SRC
+
 
 ** Reloading the configuration
    
@@ -994,6 +950,9 @@ Requires libclang to be installed.
 
   (use-package company-jedi
       :ensure t
+      :init
+          (autoload 'jedi:setup "jedi" nil t)
+          (add-hook 'python-mode-hook 'jedi:setup)
       :config
           (require 'company)
           (add-to-list 'company-backends 'company-jedi))
@@ -1004,12 +963,6 @@ Requires libclang to be installed.
   (setq-local company-backends '((company-jedi
                                   company-etags
                                   company-dabbrev-code))))
-
-  (use-package company-jedi
-      :ensure t
-      :config
-          (require 'company)
-          (add-hook 'python-mode-hook 'python-mode-company-init))
 #+END_SRC
 **** hs-minor mode
 folding mode 
@@ -1167,9 +1120,9 @@ Those are all rather self-explanatory.
 
 ** Line wrapping
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook
-	    '(lambda ()
-	       (visual-line-mode 1)))
+  ;(add-hook 'org-mode-hook
+	    ;'(lambda ()
+	       ;(visual-line-mode 1)))
 #+END_SRC
 
 ** Keybindings
@@ -1221,7 +1174,7 @@ Here is how we add more of them!
 ** TO DO keywords
 #+BEGIN_SRC emacs-lisp
     (setq org-todo-keywords 
-    '((sequence "NOW(n)" "TODO(t)" "CHECK(c@)" "LATER(l)" "|" "DONE(d!)" )
+    '((sequence "NOW(n)" "TODO(t)" "CHECK(c@)" "LATER(l)" "WAIT(w@)" "|" "DONE(d!)" )
     (sequence "BUG(b@)" "ISSUE(i@)" "|" "FIXED(f!)")
     (sequence "|" "CANCELED(a@)")
     ))
@@ -1233,6 +1186,7 @@ Here is how we add more of them!
         ("DONE" .(:foreground "#94bff3")) 
         ("LATER" .(:foreground "#ffc9a4")) 
         ("CHECK" .(:foreground "#f0dfaf")) 
+        ("WAIT" .(:foreground "#ebe9bf")) 
         ("BUG" .(:foreground "#8c5353" :weight bold)) 
         ("ISSUE" .(:foreground "#dfaf8f")) 
         ("FIXED" .(:foreground "#9fc59f"))
@@ -1260,7 +1214,7 @@ Here is how we add more of them!
            "* %?\nEntered on %U\n  %i\n")
           ("f" "Files" entry (file+headline "~/documents/notes/files.org" "Files")
           "* %?\n[[file:%F][%F]]")
-          ("a" "Agenda" entry (file "~/documents/notes/agenda.org")
+          ("a" "Agenda" entry (file+headline "~/documents/notes/agenda.org" "Evenements")
            "* %?\nEntered on %U\n  %i\n")
           ))
 #+END_SRC
@@ -1349,16 +1303,16 @@ automatically add clock items in a drawer
 #+END_SRC
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c a") 'org-agenda)
-(setq org-agenda-custom-commands
-      '(("h" "Daily habits" 
-         ((agenda ""))
-         ((org-agenda-show-log t)
-          (org-agenda-ndays 7)
-          (org-agenda-log-mode-items '(state))
-          (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-        ;; other commands here
-        ))
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (setq org-agenda-custom-commands
+        '(("h" "Daily habits" 
+           ((agenda ""))
+           ((org-agenda-show-log t)
+            (org-agenda-ndays 7)
+            (org-agenda-log-mode-items '(state))
+            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+          ;; other commands here
+          ))
 #+END_SRC
 ** org-number
 #+BEGIN_SRC emacs-lisp
