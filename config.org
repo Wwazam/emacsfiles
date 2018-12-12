@@ -394,21 +394,23 @@ change the numbers to suit your liking, I find 5 to be enough.
 * Modeline
 ** SML
 #+BEGIN_SRC emacs-lisp
-    (use-package smart-mode-line
-        :ensure t
-        :config
-            (sml/setup)
-            (setq sml/theme 'respectful
-                sml/mode-width 'full
-                sml/name-width '(0 . 20)
-                sml/replacer-regexp-list
-                '(
-                    ("^~/org/" ":O:")
-                    ("^~/\\.emacs\\.d/" ":ED:")
-                    ("^~/documents/notes/" ":N:")))
+  (display-battery-mode 0)
+  (use-package smart-mode-line
+      :ensure t
+      :init
           (display-battery-mode 0)
-  )
-        
+      :config
+          (sml/setup)
+          (setq sml/theme 'respectful
+              sml/mode-width 'full
+              sml/name-width '(0 . 20)
+              sml/replacer-regexp-list
+              '(
+                  ("^~/org/" ":O:")
+                  ("^~/\\.emacs\\.d/" ":ED:")
+                  ("^~/documents/notes/" ":N:")))
+    )
+
 #+END_SRC
 
 ** Hide Minor mode list
