@@ -1303,16 +1303,16 @@ automatically add clock items in a drawer
 #+END_SRC
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (setq org-agenda-custom-commands
-        '(("h" "Daily habits" 
-           ((agenda ""))
-           ((org-agenda-show-log t)
-            (org-agenda-ndays 7)
-            (org-agenda-log-mode-items '(state))
-            (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
-          ;; other commands here
-          ))
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    (setq org-agenda-custom-commands
+          '(("h" "Daily habits" 
+             ((agenda ""))
+             ((org-agenda-show-log t)
+              (org-agenda-ndays 7)
+              (setq org-agenda-log-mode-items '(closed clock state))
+              (org-agenda-skip-function '(org-agenda-skip-entry-if 'notregexp ":DAILY:"))))
+            ;; other commands here
+            ))
 #+END_SRC
 ** org-number
 #+BEGIN_SRC emacs-lisp

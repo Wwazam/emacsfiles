@@ -1,3 +1,5 @@
+init.el
+config.el
 elpa/
 [#]*[#]
 *~
@@ -6,5 +8,3 @@ recentf
 *.eld
 .python*
 bookmarks
-init.el
-config.el
