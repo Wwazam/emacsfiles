@@ -398,7 +398,6 @@ change the numbers to suit your liking, I find 5 to be enough.
 * Modeline
 ** SML
 #+BEGIN_SRC emacs-lisp
-<<<<<<< HEAD
   (display-battery-mode 0)
   (use-package smart-mode-line
       :ensure t
@@ -415,23 +414,6 @@ change the numbers to suit your liking, I find 5 to be enough.
                   ("^~/\\.emacs\\.d/" ":ED:")
                   ("^~/documents/notes/" ":N:")))
     )
-
-=======
-    (use-package smart-mode-line
-        :ensure t
-        :config
-            (sml/setup)
-            (setq sml/theme 'respectful
-                sml/mode-width 'full
-                sml/name-width '(0 . 20)
-                sml/replacer-regexp-list
-                '(
-                    ("^~/org/" ":O:")
-                    ("^~/\\.emacs\\.d/" ":ED:")
-                    ("^~/documents/notes/" ":N:")))
-  )
-        
->>>>>>> e32fce8b79eb55636949960168bb971a69142a36
 #+END_SRC
 
 ** Hide Minor mode list
@@ -824,6 +806,20 @@ You may not like it, thus disable it if you must, but it's pretty decent.
 #+BEGIN_SRC emacs-lisp
   (setq completion-ignore-case t)
 #+END_SRC
+
+** Date names
+
+#+BEGIN_SRC emacs-lisp
+(setq calendar-week-start-day 1
+          calendar-day-name-array ["Sunday" "Monday" "Tuesday" "Wednesday" 
+                                   "Thursday" "Friday" "Saturday"]
+          calendar-month-name-array ["Jannuary" "February" "Mars" "April" "May"
+                                     "June" "July" "August" "September" 
+                                     "October" "November" "December"])
+#+END_SRC
+
+#+RESULTS:
+: ["Jannuary" "February" "Mars" "April" "May" "June" "July" "August" "September" "October" "November" "December"]
 
 * Kill ring
 There is a lot of customization to the kill ring, and while I have not used it much before,
