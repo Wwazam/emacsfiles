@@ -1173,26 +1173,27 @@ Here is how we add more of them!
 #+END_SRC
 ** TO DO keywords
 #+BEGIN_SRC emacs-lisp
-    (setq org-todo-keywords 
-    '((sequence "NOW(n)" "TODO(t)" "CHECK(c@)" "LATER(l)" "WAIT(w@)" "|" "DONE(d!)" )
-    (sequence "BUG(b@)" "ISSUE(i@)" "|" "FIXED(f!)")
-    (sequence "|" "CANCELED(a@)")
-    ))
+  (setq org-todo-keywords 
+      '((sequence "NOW(n)" "TODO(t)" "CHECK(c@)" "LATER(l)" "WAIT(w@)" "|" "DONE(d!)" )
+      (sequence "BUG(b@)" "ISSUE(i@)" "|" "FIXED(f!)")
+      (sequence "|" "CANCELED(a@)")
+  ))
 
   (setq org-todo-keyword-faces
-    '(
-        ("NOW" .(:foreground "#ac7373" :weight bold)) 
-        ("TODO" .(:foreground "#bc8383" :weight bold)) 
-        ("DONE" .(:foreground "#94bff3")) 
-        ("LATER" .(:foreground "#ffc9a4")) 
-        ("CHECK" .(:foreground "#f0dfaf")) 
-        ("WAIT" .(:foreground "#ebe9bf")) 
-        ("BUG" .(:foreground "#8c5353" :weight bold)) 
-        ("ISSUE" .(:foreground "#dfaf8f")) 
-        ("FIXED" .(:foreground "#9fc59f"))
-        ("CANCELED" .(:foreground "#7f9f7f"))
-    ))
+      '(
+          ("NOW" .(:foreground "#ac7373" :weight bold)) 
+          ("TODO" .(:foreground "#bc8383" :weight bold)) 
+          ("DONE" .(:foreground "#94bff3")) 
+          ("LATER" .(:foreground "#ffc9a4")) 
+          ("CHECK" .(:foreground "#f0dfaf")) 
+          ("WAIT" .(:foreground "#ebe9bf")) 
+          ("BUG" .(:foreground "#8c5353" :weight bold)) 
+          ("ISSUE" .(:foreground "#dfaf8f")) 
+          ("FIXED" .(:foreground "#9fc59f"))
+          ("CANCELED" .(:foreground "#7f9f7f"))
+  ))
 
+  (setq org-log-into-drawer t)
 #+END_SRC
 ** Closed timestamp
 #+BEGIN_SRC emacs-lisp
