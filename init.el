@@ -65,11 +65,7 @@
  '(nyan-mode t)
  '(org-agenda-files
    (quote
-<<<<<<< HEAD
     ("~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org")))
-=======
-    ("~/documents/notes/diary.org" "~/documents/notes/todo.org_archive" "~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org" "~/documents/workspace/sx/project.org")))
->>>>>>> 98cfaba9f730242892e5a756102b91713b97e9fd
  '(org-journal-dir "~/documents/notes/journal")
  '(org-table-convert-region-max-lines 9999)
  '(package-selected-packages
