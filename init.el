@@ -63,13 +63,9 @@
  '(flycheck-stylelintrc "~/.stylelintrc.json")
  '(initial-scratch-message "")
  '(nyan-mode t)
-<<<<<<< HEAD
- '(org-agenda-files nil)
-=======
  '(org-agenda-files
    (quote
-    ("~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org" "~/documents/workspace/sx/project.org")))
->>>>>>> e32fce8b79eb55636949960168bb971a69142a36
+    ("~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org")))
  '(org-journal-dir "~/documents/notes/journal")
  '(org-table-convert-region-max-lines 9999)
  '(package-selected-packages
