@@ -63,6 +63,7 @@
  '(flycheck-stylelintrc "~/.stylelintrc.json")
  '(initial-scratch-message "")
  '(nyan-mode t)
+ '(org-agenda-custom-commands nil)
  '(org-agenda-files
    (quote
     ("~/documents/notes/diary.org" "~/documents/notes/todo.org_archive" "~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org" "~/documents/workspace/sx/project.org")))

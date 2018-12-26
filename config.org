@@ -1,6 +1,7 @@
 #+STARTUP: overview
 #+TITLE: Uncle Dave's Emacs
 #+CREATOR: Dawid 'daedreth' Eckert
+
 #+LANGUAGE: en
 #+OPTIONS: num:nil
 #+ATTR_HTML: :style margin-left: auto; margin-right: auto;
@@ -83,34 +84,34 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 ** Basic setup
 #+BEGIN_SRC emacs-lisp
   (setq evil-search-module 'evil-search
-          evil-want-C-u-scroll t
-          evil-want-C-w-in-emacs-state t)
+        evil-want-C-u-scroll t
+        evil-want-C-w-in-emacs-state t)
 
   (use-package evil
     :ensure t
     :bind ("C-." . nil)
     :config
-      (use-package avy :ensure t)
-      (define-key evil-insert-state-map (kbd "C-.") 'avy-goto-word-1)
-      (define-key evil-normal-state-map (kbd "C-.") 'avy-goto-word-1)
-      (define-key evil-visual-state-map (kbd "C-.") 'avy-goto-word-1)
-      (define-key evil-motion-state-map (kbd "C-.") 'avy-goto-word-1)
-      (bind-key "C-." 'avy-goto-word-1)
-      (evil-mode 1))
+    (use-package avy :ensure t)
+    (define-key evil-insert-state-map (kbd "C-.") 'avy-goto-word-1)
+    (define-key evil-normal-state-map (kbd "C-.") 'avy-goto-word-1)
+    (define-key evil-visual-state-map (kbd "C-.") 'avy-goto-word-1)
+    (define-key evil-motion-state-map (kbd "C-.") 'avy-goto-word-1)
+    (bind-key "C-." 'avy-goto-word-1)
+    (evil-mode 1))
 
 #+END_SRC
 
 ** jk to go  Back to normal mode
 #+BEGIN_SRC emacs-lisp
-(use-package key-chord
+  (use-package key-chord
     :ensure t)
-(setq key-chord-two-keys-delay 1)
-(key-chord-mode 1)
+  (setq key-chord-two-keys-delay 1)
+  (key-chord-mode 1)
 
-(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(key-chord-define evil-replace-state-map "kj" 'evil-normal-state)
-(key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "kj" 'evil-normal-state)
+  (key-chord-define evil-replace-state-map "jk" 'evil-normal-state)
 #+END_SRC
 
 ** Remove C-. keybinding
@@ -122,20 +123,30 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 ** Keybindings
 *** remove highlights
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-x /") 'evil-ex-nohighlight)
+  (global-set-key (kbd "C-x /") 'evil-ex-nohighlight)
 #+END_SRC
 
 ** Evil Numbers
 #+BEGIN_SRC emacs-lisp
-(use-package evil-numbers
+  (use-package evil-numbers
     :ensure t)
-(global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
-(global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
+  (global-set-key (kbd "C-+") 'evil-numbers/inc-at-pt)
+  (global-set-key (kbd "C--") 'evil-numbers/dec-at-pt)
 #+END_SRC
 
 ** Marks
 #+BEGIN_SRC emacs-lisp
   (define-key evil-normal-state-local-map (kbd "'") 'evil-goto-mark)
+#+END_SRC
+
+** Universal argument
+
+Emacs uses C-u as an universal argument (adding an intermediate checkbox in orgmode is "C-u C-u C-c C-c" for example)
+Evil uses it to scroll down half a page
+
+I remape it to C-f that evil uses to scroll down a whole page, and that I never use myself
+#+BEGIN_SRC emacs-lisp
+(define-key evil-normal-state-map (kbd "C-f") #'universal-argument)
 #+END_SRC
 * Eyebrowse
 #+BEGIN_SRC emacs-lisp
@@ -1317,6 +1328,10 @@ org indent symbol in clock reports is bugged (some latex problem, idk, idc) and 
 automatically add clock items in a drawer
 #+BEGIN_SRC emacs-lisp
   (setq org-clock-into-drawer t)
+#+END_SRC
+*** idle time
+#+BEGIN_SRC emacs-lisp
+(setq org-clock-idle-time 10)
 #+END_SRC
 ** org-agenda
 #+BEGIN_SRC emacs-lisp
