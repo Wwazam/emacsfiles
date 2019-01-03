@@ -804,13 +804,17 @@ impressive. Together they create a nice environment for you to work in.
     (defun my/Config () (interactive)(find-file "~/.emacs.d/config.org")))
   (define-key global-map (kbd "C-c f e")
     (defun my/Elfeed () (interactive)(find-file "~/.emacs.d/elfeed.org")))
+  (define-key global-map (kbd "C-c f i")
+    (defun my/Init () (interactive)(find-file "~/Dropbox/document/notes/inbox.org")))
   (define-key global-map (kbd "C-c f I")
     (defun my/Init () (interactive)(find-file "~/.emacs.d/init.el")))
   (define-key global-map (kbd "C-c f j")
     (defun my/Diary () (interactive)(find-file "~/Dropbox/document/notes/diary.org")))
+  (define-key global-map (kbd "C-c f l")
+    (defun my/Diary () (interactive)(find-file "~/Dropbox/document/notes/later.org")))
   (define-key global-map (kbd "C-c f p")
     (defun my/Project () (interactive)(find-file "~/Dropbox/document/notes/project.org")))
-  (define-key global-map (kbd "C-c f s")
+  (define-key global-map (kbd "C-c f S")
     (defun my/Scratch () (interactive)(switch-to-buffer "*scratch*")))
   (define-key global-map (kbd "C-c f t")
     (defun my/Todo () (interactive)(find-file "~/Dropbox/document/notes/todo.org")))
@@ -1338,11 +1342,13 @@ Here is how we add more of them!
   (setq org-defaults-notes-file "~/Dropbox/document/notes/notes.org")
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/Dropbox/document/notes/todo.org" "Tasks")
-               "* TODO %?\n  %i\n  %a")
+               "* TODO %?\n")
+          ("i" "Inbox" entry (file+headline "~/Dropbox/document/notes/inbox.org" "Tasks")
+               "* TODO %?\n %i\n\n")
           ("j" "Journal" entry (file+datetree "~/Dropbox/document/notes/diary.org")
-           "* %?\nEntered on %U\n  %i\n")
+           "* %?\n")
           ("a" "Agenda" entry (file+headline "~/Dropbox/document/notes/agenda.org" "Evenements")
-           "* %?\nEntered on %U\n  %i\n")
+           "* %?\n")
           ))
 #+END_SRC
 
@@ -1462,6 +1468,15 @@ automatically add clock items in a drawer
           (emacs-lisp . t)
           (js . t)
           (plantuml . t)))
+#+END_SRC
+** refile
+
+#+BEGIN_SRC emacs-lisp
+
+  (setq org-refile-targets '(("~/Dropbox/document/notes/todo.org" :maxlevel . 3)
+                             ("~/Dropbox/document/notes/later.org" :level . 1)
+                             ("~/Dropbox/document/notes/agenda.org" :maxlevel . 2)))
+
 #+END_SRC
 * LaTeX
 ** Initialize
