@@ -39,6 +39,8 @@
 ;;; This is the actual config file. It is omitted if it doesn't exist so emacs won't refuse to launch.
 (when (file-readable-p "~/.emacs.d/config.org")
   (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+(when (file-readable-p "~/.emacs.d/local.org")
+  (org-babel-load-file (expand-file-name "~/.emacs.d/local.org")))
 
 ;;; Experimental email stuff.
 ;(when (file-readable-p "~/.email/email.org")
@@ -66,12 +68,12 @@
  '(org-agenda-custom-commands nil)
  '(org-agenda-files
    (quote
-    ("~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org")))
+    ("~/documents/notes/diary.org" "~/documents/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/project.org")))
  '(org-journal-dir "~/documents/notes/journal")
  '(org-table-convert-region-max-lines 9999)
  '(package-selected-packages
    (quote
-    (evil-mu4e git-gutter plantuml-mode display-battery display-battery-mode smart-mode-line avy-mode format-all fortune-cookie frameshot format-sql auto-virtualenv virtualenv auctex auto-complete-auctex org-journal transpose-frame evil-matchit jedi elpy flycheck-tip flymake-python-pyflakes flycheck-pyflakes org-numbers org-number yasnippet-classic-snippets org-reveal org-tree-slide epresent org-wc org-caldav evil-numbers csv-mode bbdb-csv-import csv elfeed hs-mode origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
+    (org-dropbox evil-mu4e git-gutter plantuml-mode display-battery display-battery-mode smart-mode-line avy-mode format-all fortune-cookie frameshot format-sql auto-virtualenv virtualenv auctex auto-complete-auctex org-journal transpose-frame evil-matchit jedi elpy flycheck-tip flymake-python-pyflakes flycheck-pyflakes org-numbers org-number yasnippet-classic-snippets org-reveal org-tree-slide epresent org-wc org-caldav evil-numbers csv-mode bbdb-csv-import csv elfeed hs-mode origami hs hs-minor hs-minor-mode org-evil general evil-org evil-leader color-theme zenburn zenburn-theme key-chord eno ace-jump-zap ace-jump-helm-line ace-jump-buffer evil slime-company slime company-jedi zzz-to-char rainbow-delimiters avy ivy projectile sunrise-x-modeline sunrise-x-buttons sunrise-commander twittering-mode zerodark-theme pretty-mode flycheck-clang-analyzer flycheck-irony flycheck yasnippet-snippets yasnippet company-c-headers company-shell company-irony irony irony-mode company-lua mark-multiple expand-region swiper popup-kill-ring dmenu ido-vertical-mode ido-vertical ox-html5slide centered-window-mode htmlize ox-twbs diminish erc-hl-nicks symon rainbow-mode switch-window dashboard smex company sudo-edit emms magit org-bullets hungry-delete beacon linum-relative spaceline fancy-battery exwm which-key use-package)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(sml-modeline-mode t))

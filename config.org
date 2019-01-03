@@ -144,11 +144,14 @@ Lets us use asynchronous processes wherever possible, pretty useful.
 Emacs uses C-u as an universal argument (adding an intermediate checkbox in orgmode is "C-u C-u C-c C-c" for example)
 Evil uses it to scroll down half a page
 
-I remape it to C-f that evil uses to scroll down a whole page, and that I never use myself
+I remaped it to C-f that evil uses to scroll down a whole page, and that I never use myself
+
 #+BEGIN_SRC emacs-lisp
 (define-key evil-normal-state-map (kbd "C-f") #'universal-argument)
 #+END_SRC
+
 * Eyebrowse
+
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse
       :ensure t
@@ -332,6 +335,7 @@ You can also change those if you'd like, but I highly recommend keeping 'em the 
 #+END_SRC
 
 ** Screenshots
+
 I don't need scrot to take screenshots, or shutter or whatever tools you might have. This is enough.
 These won't work in the terminal version or the virtual console, obvious reasons.
 
@@ -374,8 +378,10 @@ I use qutebrowser, so that's what I'll set up.
 #+END_SRC
 
 * Projectile
+
 Projectile is an awesome project manager, mostly because it recognizes directories
 with a =.git= directory as projects and helps you manage them accordingly.
+
 ** Enable projectile globally
 This makes sure that everything can be a project.
 #+BEGIN_SRC emacs-lisp
@@ -391,10 +397,12 @@ This makes sure that everything can be a project.
 #+END_SRC
 
 * Dashboard
+
 This is your new startup screen, together with projectile it works in unison and
 provides you with a quick look into your latest projects and files.
 Change the welcome message to whatever string you want and
 change the numbers to suit your liking, I find 5 to be enough.
+
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :ensure t
@@ -403,31 +411,123 @@ change the numbers to suit your liking, I find 5 to be enough.
       (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
       (setq dashboard-items '((recents  . 5)
                               (projects . 5)))
-      (setq dashboard-banner-logo-title ""))
+      (setq dashboard-banner-logo-title "OUIIII"))
 #+END_SRC
 
 * Modeline
-** SML
-#+BEGIN_SRC emacs-lisp
-  (display-battery-mode 0)
-  (use-package smart-mode-line
-      :ensure t
-      :init
-          (display-battery-mode 0)
-      :config
-          (sml/setup)
-          (setq sml/theme 'respectful
-              sml/mode-width 'full
-              sml/name-width '(0 . 20)
-              sml/replacer-regexp-list
-              '(
-                  ("^~/org/" ":O:")
-                  ("^~/\\.emacs\\.d/" ":ED:")
-                  ("^~/documents/notes/" ":N:")))
-    )
-#+END_SRC
+** other mode line
 
+#+BEGIN_SRC emacs-lisp
+
+  ;; Mode line setup
+  (setq-default
+   mode-line-format
+   '(; Position, including warning for 80 columns
+     (:propertize "%4l:" face mode-line-position-face)
+     (:eval (propertize "%3c" 'face
+                        (if (>= (current-column) 80)
+                            'mode-line-80col-face
+                          'mode-line-position-face)))
+     ; emacsclient [default -- keep?]
+     mode-line-client
+     "  "
+     ; read-only or modified status
+     (:eval
+      (cond (buffer-read-only
+             (propertize " RO " 'face 'mode-line-read-only-face))
+            ((buffer-modified-p)
+             (propertize " ** " 'face 'mode-line-modified-face))
+            (t "      ")))
+     "    "
+     ; directory and buffer/file name
+     (:propertize (:eval (shorten-directory default-directory 30))
+                  face mode-line-folder-face)
+     (:propertize "%b"
+                  face mode-line-filename-face)
+     ; narrow [default -- keep?]
+     " %n "
+     ; mode indicators: vc, recursive edit, major mode, minor modes, process, global
+     (vc-mode vc-mode)
+     "  %["
+     (:propertize mode-name
+                  face mode-line-mode-face)
+     "%] "
+     (:propertize mode-line-process
+                  face mode-line-process-face)
+     (global-mode-string global-mode-string)
+     "    "
+     ))
+
+  ;; Helper function
+  (defun shorten-directory (dir max-length)
+    "Show up to `max-length' characters of a directory name `dir'."
+    (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+          (output ""))
+      (when (and path (equal "" (car path)))
+        (setq path (cdr path)))
+      (while (and path (< (length output) (- max-length 4)))
+        (setq output (concat (car path) "/" output))
+        (setq path (cdr path)))
+      (when path
+        (setq output (concat ".../" output)))
+      output))
+
+  ;; Extra mode line faces
+  (make-face 'mode-line-read-only-face)
+  (make-face 'mode-line-modified-face)
+  (make-face 'mode-line-folder-face)
+  (make-face 'mode-line-filename-face)
+  (make-face 'mode-line-position-face)
+  (make-face 'mode-line-mode-face)
+  (make-face 'mode-line-minor-mode-face)
+  (make-face 'mode-line-process-face)
+  (make-face 'mode-line-80col-face)
+
+  (set-face-attribute 'mode-line nil
+      :foreground "gray60" :background "gray20"
+      :inverse-video nil
+      :box '(:line-width 6 :color "gray20" :style nil))
+  (set-face-attribute 'mode-line-inactive nil
+      :foreground "gray80" :background "gray40"
+      :inverse-video nil
+      :box '(:line-width 6 :color "gray40" :style nil))
+
+  (set-face-attribute 'mode-line-read-only-face nil
+      :inherit 'mode-line-face
+      :foreground "#4271ae"
+      :box '(:line-width 2 :color "#4271ae"))
+  (set-face-attribute 'mode-line-modified-face nil
+      :inherit 'mode-line-face
+      :foreground "#c82829"
+      :background "#ffffff"
+      :box '(:line-width 2 :color "#c82829"))
+  (set-face-attribute 'mode-line-folder-face nil
+      :inherit 'mode-line-face
+      :foreground "gray60")
+  (set-face-attribute 'mode-line-filename-face nil
+      :inherit 'mode-line-face
+      :foreground "#eab700"
+      :weight 'bold)
+  (set-face-attribute 'mode-line-position-face nil
+      :inherit 'mode-line-face
+      :family "Menlo" :height 100)
+  (set-face-attribute 'mode-line-mode-face nil
+      :inherit 'mode-line-face
+      :foreground "gray80")
+  (set-face-attribute 'mode-line-minor-mode-face nil
+      :inherit 'mode-line-mode-face
+      :foreground "gray40"
+      :height 110)
+  (set-face-attribute 'mode-line-process-face nil
+      :inherit 'mode-line-face
+      :foreground "#718c00")
+  (set-face-attribute 'mode-line-80col-face nil
+      :inherit 'mode-line-position-face
+      :foreground "black" :background "#eab700")
+
+#+END_SRC
 ** Hide Minor mode list
+
 #+BEGIN_SRC emacs-lisp
   (use-package rich-minority
       :ensure t
@@ -438,6 +538,8 @@ change the numbers to suit your liking, I find 5 to be enough.
                   '(".*" "Projectile.*" "PgLn")
                   "\\|")))
   )
+
+(setq org-clock-clocked-in-display 'frame-title)
 #+END_SRC
 
 * File manager
@@ -517,7 +619,7 @@ this is bad, it also works less well with =exwm= for some reason.
     (setq switch-window-threshold 2)
     (setq switch-window-shortcut-style 'qwerty)
     (setq switch-window-qwerty-shortcuts
-        '("a" "o" "e" "u" "h" "t" "n" "n" "s"))
+        '("h" "t" "n" "s" "a" "o" "e" "u" ))
   :bind
     ([remap other-window] . switch-window))
 #+END_SRC
@@ -693,27 +795,26 @@ Emacs is at it's best when it just does things for you, shows you the way, guide
 This can be best achieved using a number of small extensions. While on their own they might not be particularly
 impressive. Together they create a nice environment for you to work in.
 ** Visiting files
+
 #+BEGIN_SRC emacs-lisp :results none
-(define-key global-map (kbd "C-c f a")
-  (defun my/Agenda () (interactive)(find-file "~/documents/notes/agenda.org")))
-(define-key global-map (kbd "C-c f c")
-  (defun my/Config () (interactive)(find-file "~/.emacs.d/config.org")))
-(define-key global-map (kbd "C-c f e")
-  (defun my/Elfeed () (interactive)(find-file "~/.emacs.d/elfeed.org")))
-(define-key global-map (kbd "C-c f f")
-  (defun my/Files () (interactive)(find-file "~/documents/notes/files.org")))
-(define-key global-map (kbd "C-c f h")
-  (defun my/Horraires () (interactive)(find-file "~/documents/notes/horraires.org")))
-(define-key global-map (kbd "C-c f i")
-  (defun my/Init () (interactive)(find-file "~/.emacs.d/init.el")))
-(define-key global-map (kbd "C-c f j")
-  (defun my/Diary () (interactive)(find-file "~/documents/notes/diary.org")))
-(define-key global-map (kbd "C-c f p")
-  (defun my/Project () (interactive)(find-file "~/documents/notes/project.org")))
-(define-key global-map (kbd "C-c f s")
-  (defun my/Scratch () (interactive)(switch-to-buffer "*scratch*")))
-(define-key global-map (kbd "C-c f t")
-  (defun my/Todo () (interactive)(find-file "~/documents/notes/todo.org")))
+
+  (define-key global-map (kbd "C-c f a")
+    (defun my/Agenda () (interactive)(find-file "~/Dropbox/document/notes/agenda.org")))
+  (define-key global-map (kbd "C-c f C")
+    (defun my/Config () (interactive)(find-file "~/.emacs.d/config.org")))
+  (define-key global-map (kbd "C-c f e")
+    (defun my/Elfeed () (interactive)(find-file "~/.emacs.d/elfeed.org")))
+  (define-key global-map (kbd "C-c f I")
+    (defun my/Init () (interactive)(find-file "~/.emacs.d/init.el")))
+  (define-key global-map (kbd "C-c f j")
+    (defun my/Diary () (interactive)(find-file "~/Dropbox/document/notes/diary.org")))
+  (define-key global-map (kbd "C-c f p")
+    (defun my/Project () (interactive)(find-file "~/Dropbox/document/notes/project.org")))
+  (define-key global-map (kbd "C-c f s")
+    (defun my/Scratch () (interactive)(switch-to-buffer "*scratch*")))
+  (define-key global-map (kbd "C-c f t")
+    (defun my/Todo () (interactive)(find-file "~/Dropbox/document/notes/todo.org")))
+
 #+END_SRC
 
 
@@ -1234,15 +1335,13 @@ Here is how we add more of them!
 
 *** Default Files
 #+BEGIN_SRC emacs-lisp
-  (setq org-defaults-notes-file "~/documents/notes/notes.org")
+  (setq org-defaults-notes-file "~/Dropbox/document/notes/notes.org")
   (setq org-capture-templates
-        '(("t" "Todo" entry (file+headline "~/documents/notes/todo.org" "Tasks")
+        '(("t" "Todo" entry (file+headline "~/Dropbox/document/notes/todo.org" "Tasks")
                "* TODO %?\n  %i\n  %a")
-          ("j" "Journal" entry (file+datetree "~/documents/notes/diary.org")
+          ("j" "Journal" entry (file+datetree "~/Dropbox/document/notes/diary.org")
            "* %?\nEntered on %U\n  %i\n")
-          ("f" "Files" entry (file+headline "~/documents/notes/files.org" "Files")
-          "* %?\n[[file:%F][%F]]")
-          ("a" "Agenda" entry (file+headline "~/documents/notes/agenda.org" "Evenements")
+          ("a" "Agenda" entry (file+headline "~/Dropbox/document/notes/agenda.org" "Evenements")
            "* %?\nEntered on %U\n  %i\n")
           ))
 #+END_SRC
@@ -1292,7 +1391,7 @@ C-c h to open plan in left pane
         (delete-other-windows)
         (split-window-right)
         (enlarge-window-horizontally -9999)
-        (enlarge-window-horizontally 50)
+        (enlarge-window-horizontally 40)
       ))
 #+END_SRC
 
@@ -1361,6 +1460,7 @@ automatically add clock items in a drawer
           (python . t)
           (sql . t)
           (emacs-lisp . t)
+          (js . t)
           (plantuml . t)))
 #+END_SRC
 * LaTeX
@@ -1482,6 +1582,19 @@ See `elfeed-play-with-mpv'."
 https://github.com/emacs-evil/evil/issues/847
 #+BEGIN_SRC emacs-lisp
 (defun evil-abort-macro ())
+#+END_SRC
+** undotree
+
+#+BEGIN_SRC emacs-lisp
+
+  (use-package undo-tree
+    :diminish undo-tree-mode
+    :config
+    (progn
+      (global-undo-tree-mode)
+      (setq undo-tree-visualizer-timestamps t)
+      (setq undo-tree-visualizer-diff t)))
+
 #+END_SRC
 * Misc keymapping
 ** M-x
