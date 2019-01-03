@@ -397,12 +397,10 @@ change the numbers to suit your liking, I find 5 to be enough.
 
 * Modeline
 ** SML
+
 #+BEGIN_SRC emacs-lisp
-  (display-battery-mode 0)
   (use-package smart-mode-line
       :ensure t
-      :init
-          (display-battery-mode 0)
       :config
           (sml/setup)
           (setq sml/theme 'respectful
@@ -417,6 +415,7 @@ change the numbers to suit your liking, I find 5 to be enough.
 #+END_SRC
 
 ** Hide Minor mode list
+
 #+BEGIN_SRC emacs-lisp
   (use-package rich-minority
       :ensure t
@@ -697,6 +696,8 @@ impressive. Together they create a nice environment for you to work in.
   (defun my/Init () (interactive)(find-file "~/.emacs.d/init.el")))
 (define-key global-map (kbd "C-c f j")
   (defun my/Diary () (interactive)(find-file "~/documents/notes/diary.org")))
+(define-key global-map (kbd "C-c f l")
+  (defun my/Diary () (interactive)(find-file "~/documents/notes/lists.org")))
 (define-key global-map (kbd "C-c f p")
   (defun my/Project () (interactive)(find-file "~/documents/notes/project.org")))
 (define-key global-map (kbd "C-c f s")
@@ -1182,7 +1183,7 @@ Here is how we add more of them!
   (use-package ox-twbs
     :ensure t)
 #+END_SRC
-*** Plantum
+*** Plantuml
 #+BEGIN_SRC emacs-lisp
 (setq org-plantuml-jar-path
       (expand-file-name "~/.emacs.d/src/plantuml.jar"))
