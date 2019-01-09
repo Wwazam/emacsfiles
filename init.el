@@ -69,7 +69,7 @@
  '(org-agenda-custom-commands nil)
  '(org-agenda-files
    (quote
-    ("~/documents/notes/todo.org" "~/documents/notes/agenda.org" "~/documents/notes/project.org")))
+    ("~/Dropbox/document/notes/agenda.org" "~/documents/notes/todo.org" "~/documents/notes/agenda.org" "~/documents/notes/project.org")))
  '(org-journal-dir "~/documents/notes/journal")
  '(org-table-convert-region-max-lines 9999)
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))

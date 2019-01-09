@@ -411,7 +411,7 @@ change the numbers to suit your liking, I find 5 to be enough.
       (setq dashboard-startup-banner "~/.emacs.d/img/dashLogo.png")
       (setq dashboard-items '((recents  . 5)
                               (projects . 5)))
-      (setq dashboard-banner-logo-title "OUIIII"))
+      (setq dashboard-banner-logo-title ""))
 #+END_SRC
 
 * Modeline
@@ -444,6 +444,7 @@ change the numbers to suit your liking, I find 5 to be enough.
                   face mode-line-folder-face)
      (:propertize "%b"
                   face mode-line-filename-face)
+
      ; narrow [default -- keep?]
      " %n "
      ; mode indicators: vc, recursive edit, major mode, minor modes, process, global
@@ -805,13 +806,15 @@ impressive. Together they create a nice environment for you to work in.
   (define-key global-map (kbd "C-c f e")
     (defun my/Elfeed () (interactive)(find-file "~/.emacs.d/elfeed.org")))
   (define-key global-map (kbd "C-c f i")
-    (defun my/Init () (interactive)(find-file "~/Dropbox/document/notes/inbox.org")))
+    (defun my/Inbox () (interactive)(find-file "~/Dropbox/document/notes/inbox.org")))
   (define-key global-map (kbd "C-c f I")
     (defun my/Init () (interactive)(find-file "~/.emacs.d/init.el")))
   (define-key global-map (kbd "C-c f j")
     (defun my/Diary () (interactive)(find-file "~/Dropbox/document/notes/diary.org")))
   (define-key global-map (kbd "C-c f l")
-    (defun my/Diary () (interactive)(find-file "~/Dropbox/document/notes/later.org")))
+    (defun my/List () (interactive)(find-file "~/Dropbox/document/notes/list.org")))
+  (define-key global-map (kbd "C-c f L")
+    (defun my/Later () (interactive)(find-file "~/Dropbox/document/notes/later.org")))
   (define-key global-map (kbd "C-c f p")
     (defun my/Project () (interactive)(find-file "~/Dropbox/document/notes/project.org")))
   (define-key global-map (kbd "C-c f S")
@@ -1342,13 +1345,13 @@ Here is how we add more of them!
   (setq org-defaults-notes-file "~/Dropbox/document/notes/notes.org")
   (setq org-capture-templates
         '(("t" "Todo" entry (file+headline "~/Dropbox/document/notes/todo.org" "Tasks")
-               "* TODO %?\n")
+               "* TODO %i%?\n\n\n")
           ("i" "Inbox" entry (file+headline "~/Dropbox/document/notes/inbox.org" "Tasks")
-               "* TODO %?\n %i\n\n")
+               "* TODO %i%?\n\n\n")
           ("j" "Journal" entry (file+datetree "~/Dropbox/document/notes/diary.org")
-           "* %?\n")
+           "* %?\n\n")
           ("a" "Agenda" entry (file+headline "~/Dropbox/document/notes/agenda.org" "Evenements")
-           "* %?\n")
+           "* %?\n\n")
           ))
 #+END_SRC
 
